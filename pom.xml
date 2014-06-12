@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Document   : pom.xml
+  Created on : January 29, 2013
+  Author     : jw
+-->
+
+<project
+  xmlns               = "http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi           = "http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation  = "http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+
+  <modelVersion>4.0.0</modelVersion>
+
+
+
+  <!--  <parent>
+    <groupId>com.cloudyle.paasplus</groupId>
+    <artifactId>com.cloudyle.paasplus.parent</artifactId>
+    <version>0.9.0</version>
+    <relativePath/>
+  </parent>
+-->  
+  <properties>
+    <com.cloudyle.paasplus>${basedir}/../..</com.cloudyle.paasplus>
+    <javac.version>1.7</javac.version> 
+    <paasplus.bundle.name.prefix.samples>PaaS+ Sample - PetClinic</paasplus.bundle.name.prefix.samples>
+  </properties>
+
+
+  <groupId>com.cloudyle.paasplus.samples</groupId>
+  <artifactId>com.cloudyle.paasplus.samples.petclinic</artifactId>
+  <packaging>pom</packaging>
+  <version>0.9.0</version>
+  <name>${paasplus.bundle.name.prefix.samples}</name>
+
+  <repositories>
+	<!--  This is our Maven repository server.
+		  It should always be on top in the list of repositories.
+		  External respositories will be accessed only if an API hasn't been found in our repository.
+
+		  Any external repository used by us should be proxied by our internal server. 	-->
+    <repository>
+	  <id>paasplus</id>
+	  <name>Public Paas+ Repositories</name>
+	  <url>http://nexus.paasplus.com:8081/nexus/content/groups/public/</url>
+	  <releases>
+		<enabled>true</enabled>
+		<updatePolicy>always</updatePolicy>
+	  </releases>
+	  <snapshots>
+		<enabled>true</enabled>
+		<updatePolicy>interval:10080</updatePolicy>
+	  </snapshots>
+	</repository> 
+  </repositories>
+
+<build>
+  <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.4.0</version>
+          <extensions>true</extensions>
+        </plugin>
+        
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
+          <configuration>
+            <debug>true</debug>
+            <encoding>UTF-8</encoding>
+        
+            <maxmem>512m</maxmem>
+       
+            <showWarnings>true</showWarnings>
+            <source>${javac.version}</source>
+            <target>${javac.version}</target>
+            <verbose>false</verbose>
+            <generatedSourcesDirectory>${project.build.directory}/generated-sources/annotations</generatedSourcesDirectory>
+            <compilerArgument>-Xlint:all,-deprecation,-path,-unchecked,-rawtypes,-serial,overrides</compilerArgument>
+          </configuration>
+        </plugin>
+      </plugins>
+     </pluginManagement>
+</build>
+
+  <modules>
+    <module>api</module>
+	<module>persistence</module>
+	<module>provider</module>    
+	<module>gui</module> 
+	<module>feature</module>   
+  </modules>
+
+
+</project>

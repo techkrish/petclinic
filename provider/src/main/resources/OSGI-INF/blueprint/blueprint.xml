@@ -1,0 +1,50 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.2.0"
+    default-availability="optional">
+    
+    <!-- Configuration -->
+      <cm:property-placeholder id="property-placeholder" persistent-id="com.cloudyle.paasplus.petclinic" update-strategy="reload">
+        <cm:default-properties>            
+            <cm:property name="dataDir" value="data"/>
+            <cm:property name="createSampleData" value="true"/>
+        </cm:default-properties>
+    </cm:property-placeholder> 
+    
+    <!--  Preference BackingStore Service  -->
+    <bean id="clinicServiceBean" class="com.cloudyle.paasplus.petclinic.impl.ClinicServiceImpl" >
+        <property name="persistenceService" ref="persistenceService"/>        
+        <property name="catalogService" ref="catalogService"/>  
+        <property name="reportHelper" ref="reportHelper"/>  
+    </bean>
+    
+    <bean id="reportHelper" class="com.cloudyle.paasplus.petclinic.impl.ReportHelper" >       
+        <property name="dataDir" value="${dataDir}"/>
+        <property name="reportService" ref="reportService"/>  
+    </bean>
+
+   <bean id="sampleData" class="com.cloudyle.paasplus.petclinic.impl.SampleData" init-method="createSampleData" >       
+        <property name="createSampleData" value="${createSampleData}"/>
+        <property name="persistenceService" ref="persistenceService"/>        
+        <property name="catalogService" ref="catalogService"/>  
+    </bean>
+    
+    <reference id="persistenceService"
+        interface="com.cloudyle.paasplus.services.persistence.IPersistenceService"
+        availability="mandatory" filter="(persistence-unit=persistence-petclinic-nosql)">
+    </reference>
+    
+     <reference id="reportService"
+        interface="com.cloudyle.paasplus.services.report.IReportService"
+        availability="optional" >
+    </reference>
+    
+    <reference id="catalogService"
+        interface="com.cloudyle.paasplus.services.catalog.ICatalogService"
+        availability="mandatory" >
+    </reference>
+    
+    <service interface="com.cloudyle.paasplus.petclinic.ClinicService" ref="clinicServiceBean"/>
+
+
+</blueprint>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.2.0" name="com.cloudyle.paasplus.samples.petclinic.feature-0.9.0">
+    <feature>
+        <feature>com.cloudyle.paasplus.core.mongodbcfg</feature>
+        <feature>com.cloudyle.paasplus.karaf.shiro</feature>
+        <feature>com.cloudyle.paasplus.karaf.vaadin</feature>
+        <feature>paasplus-catalog-service</feature>
+        <feature>paasplus-persistence-service</feature>
+        <feature>paasplus-report-service</feature>
+        <bundle>mvn:com.cloudyle.paasplus.samples/com.cloudyle.paasplus.samples.petclinic.api/0.9.0</bundle>
+        <bundle>mvn:com.cloudyle.paasplus.samples/com.cloudyle.paasplus.samples.petclinic.gui/0.9.0</bundle>
+        <bundle>mvn:com.cloudyle.paasplus.samples/com.cloudyle.paasplus.samples.petclinic.persistence/0.9.0</bundle>
+        <bundle>mvn:com.cloudyle.paasplus.samples/com.cloudyle.paasplus.samples.petclinic.provider/0.9.0</bundle>
+        <bundle>mvn:com.cloudyle.paasplus/com.cloudyle.paasplus.ui.framework/0.9.0</bundle>
+        <bundle>mvn:com.cloudyle.paasplus/com.cloudyle.paasplus.ui.themes/0.9.0</bundle>
+    </feature>
+</features>

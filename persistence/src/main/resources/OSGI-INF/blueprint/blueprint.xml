@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:jpa="http://aries.apache.org/xmlns/jpa/v1.0.0"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/v1.0.0"
+	default-availability="optional">
+
+	<bean id="persistenceUnit"
+		class="com.cloudyle.paasplus.services.persistence.impl.ApplicationManagedPersistenceUnit" init-method="init">
+		<jpa:unit property="entityManagerFactory" unitname="persistence-petclinic-nosql" />
+		<property name="persistenceUnitName" value="persistence-petclinic-nosql" />	
+
+		<property name="dtoEntityMapper" ref="dataMapper"/>
+	</bean>
+
+	<!-- Paasplus Persistence Service -->
+	<bean id="persistenceService"
+		class="com.cloudyle.paasplus.services.persistence.impl.PersistenceServiceImpl" >
+	   <property name="persistenceUnit" ref="persistenceUnit" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+
+
+
+  <bean id="dataMapper"
+  class="com.cloudyle.paasplus.core.datamapper.orika.OrikaDataAssembler">
+  <argument ref="blueprintBundleContext" />
+  </bean>
+
+	<!-- Service definition -->
+	<!-- Publish the persistenceService as a Service -->
+	<service ref="persistenceService">
+		<interfaces>
+			<value>com.cloudyle.paasplus.services.persistence.IPersistenceService</value>
+		</interfaces>
+		<!-- depends-on="indexService"> -->
+		<service-properties>
+			<entry key="persistence-unit" value="persistence-petclinic-nosql" />
+		</service-properties>
+	</service>
+
+</blueprint>

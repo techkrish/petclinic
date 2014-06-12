@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Document   : pom.xml
+  Created on : January 29, 2013
+  Author     : jw
+-->
+
+<project
+  xmlns               = "http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi           = "http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation  = "http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+
+  <modelVersion>4.0.0</modelVersion>
+
+
+
+  <parent>
+    <groupId>com.cloudyle.paasplus.samples</groupId>
+    <artifactId>com.cloudyle.paasplus.samples.petclinic</artifactId>
+    <version>0.9.0</version>
+    <relativePath>../</relativePath>
+  </parent>
+
+
+
+  <groupId>com.cloudyle.paasplus.samples</groupId>
+  <artifactId>com.cloudyle.paasplus.samples.petclinic.gui</artifactId>
+  <packaging>bundle</packaging>
+  <name>${paasplus.bundle.name.prefix.samples} - Demo UI</name>
+
+
+
+  <properties>
+    <com.cloudyle.paasplus>${basedir}/../../..</com.cloudyle.paasplus>
+  </properties>
+
+
+
+  <dependencies>
+    <dependency>
+	    	<groupId>org.ops4j.pax.logging</groupId>
+	      	<artifactId>pax-logging-api</artifactId>
+	      	<scope>provided</scope>
+	      	<version>1.7.0</version>
+	    </dependency>
+      <dependency>
+        <groupId>com.cloudyle.paasplus</groupId>
+        <artifactId>com.cloudyle.paasplus.ui.framework</artifactId>
+		<version>0.9.0</version>
+      </dependency>
+	
+	 <dependency>
+    	<groupId>com.cloudyle.paasplus.samples</groupId>
+    	<artifactId>
+    		com.cloudyle.paasplus.samples.petclinic.api
+    	</artifactId>
+    	<version>${project.version}</version>
+     </dependency>
+    
+      <dependency>
+        <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-servlet_2.5_spec</artifactId>
+        <version>1.2</version>
+      </dependency>
+  
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>loginform</artifactId>
+			<version>0.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+  </dependencies>
+
+
+
+  <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                       
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+                       <DynamicImport-Package>*</DynamicImport-Package>
+                        <Require-Bundle>com.cloudyle.paasplus.ui.framework,com.cloudyle.paasplus.ui.themes,com.vaadin.server</Require-Bundle>
+                        <!--  <Require-Bundle>com.cloudyle.paasplus.ui.framework,com.cloudyle.paasplus.ui.themes,com.vaadin.themes,com.vaadin.server,com.vaadin.client-compiled</Require-Bundle>-->
+                        <Import-Package>
+                        org.slf4j;provider=paxlogging,
+                        javax.servlet,
+                        javax.servlet.http,
+                        org.apache.shiro.web.env,
+                        org.apache.shiro.web.servlet,
+                        org.apache.shiro.realm.text,
+                        *</Import-Package>
+                        <Web-ContextPath>/petclinic</Web-ContextPath>
+                        <_wab>src/main/resources</_wab>
+                        <Embed-Dependency>
+							loginform
+						</Embed-Dependency>
+                    </instructions>
+                    <supportedProjectTypes>
+                        <supportedProjectType>jar</supportedProjectType>
+                        <supportedProjectType>bundle</supportedProjectType>
+                        <supportedProjectType>war</supportedProjectType>
+                    </supportedProjectTypes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+        	<plugins>
+        		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        		<plugin>
+        			<groupId>org.eclipse.m2e</groupId>
+        			<artifactId>lifecycle-mapping</artifactId>
+        			<version>1.0.0</version>
+        			<configuration>
+        				<lifecycleMappingMetadata>
+        					<pluginExecutions>
+        						<pluginExecution>
+        							<pluginExecutionFilter>
+        								<groupId>
+        									org.apache.felix
+        								</groupId>
+        								<artifactId>
+        									maven-bundle-plugin
+        								</artifactId>
+        								<versionRange>
+        									[2.3.7,)
+        								</versionRange>
+        								<goals>
+        									<goal>manifest</goal>
+        								</goals>
+        							</pluginExecutionFilter>
+        							<action>
+        								<ignore></ignore>
+        							</action>
+        						</pluginExecution>
+        					</pluginExecutions>
+        				</lifecycleMappingMetadata>
+        			</configuration>
+        		</plugin>
+        	</plugins>
+        </pluginManagement>
+    </build>
+
+</project>

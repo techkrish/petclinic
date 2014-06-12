@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project
+  xmlns               = "http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi           = "http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation  = "http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+
+  <modelVersion>4.0.0</modelVersion>
+
+
+  <parent>
+     <groupId>com.cloudyle.paasplus.samples</groupId>
+     <artifactId>com.cloudyle.paasplus.samples.petclinic</artifactId>
+    <version>0.9.0</version>
+    <relativePath>../</relativePath>
+  </parent>
+
+
+  <groupId>com.cloudyle.paasplus.samples</groupId>
+  <artifactId>com.cloudyle.paasplus.samples.petclinic.persistence</artifactId>
+  <packaging>bundle</packaging>
+  <name>${paasplus.bundle.name.prefix.samples} - NoSql Service Provider</name>
+
+
+  <properties>
+    <com.cloudyle.paasplus>${basedir}/../../../..</com.cloudyle.paasplus>
+  </properties>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>com.cloudyle.paasplus</groupId>
+      <artifactId>com.cloudyle.paasplus.services.persistence.api</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>	
+    </dependency>
+    <dependency>
+      <groupId>com.cloudyle.paasplus</groupId>
+      <artifactId>com.cloudyle.paasplus.services.persistence.provider</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+   </dependency>
+    
+    
+        
+    <dependency>
+    	<groupId>com.cloudyle.paasplus</groupId>
+    	<artifactId>com.cloudyle.paasplus.services.persistence.apt</artifactId>
+    	<version>${project.version}</version>
+    	<scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+<build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Import-Package>
+              org.slf4j;provider=paxlogging;resolution:=optional,            
+            	com.mongodb,
+            	com.cloudyle.paasplus.core.eclipselink,
+            	*
+            </Import-Package>
+            <Export-Package>
+            	com.cloudyle.paasplus.petclinic.persistence.entities.nosql.*
+            </Export-Package>
+
+            <DynamicImport-Package>org.eclipse.persistence.*</DynamicImport-Package> 
+            <!-- Resources: Eintrag in die Manifest wo die Resources liegen -->
+            <Meta-Persistence>META-INF/persistence.xml</Meta-Persistence>
+            <!-- Resources: Zielpfad=Quellpfad -->
+            <Include-Resource>META-INF/persistence.xml=src/main/resources/META-INF/persistence.xml,
+            OSGI-INF/blueprint/blueprint.xml=src/main/resources/OSGI-INF/blueprint/blueprint.xml</Include-Resource>
+           <!-- <Include-Resource>OSGI-INF/blueprint/blueprint.xml=src/main/resources/OSGI-INF/blueprint/blueprint.xml</Include-Resource> -->
+            <!-- blueprint properties are set for the whole bundle, but can be set referenced service specific in blueprint.xml as 'timeout' option -->
+          	<!-- default blueprint.timeout are 300000 milliseconds (5 minutes)-->
+          	<!-- <Bundle-SymbolicName>${project.artifactId};blueprint.graceperiod:=true;blueprint.timeout:=10000</Bundle-SymbolicName> -->
+            <JPA-PersistenceUnits>persistence-petclinic-nosql</JPA-PersistenceUnits>
+
+          </instructions>
+        </configuration>
+      </plugin>
+    <!--    <plugin>
+			<groupId>com.mysema.maven</groupId>
+			<artifactId>apt-maven-plugin</artifactId>
+			<version>1.0.9</version>
+			<executions>
+				<execution>
+					<id>JPAAnnotationProcessor</id>				
+					<goals>
+						<goal>process</goal>
+					</goals>
+					<configuration>
+						<outputDirectory>target/generated-sources/java</outputDirectory>
+						<processors>
+							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>							
+						</processors>
+						<options>
+							<querydsl.entityAccessors>true</querydsl.entityAccessors>
+              				<querydsl.prefix>JPA</querydsl.prefix>
+            			</options>
+					</configuration>
+				</execution>
+				<execution>		
+					<id>PaasplusIndexAnnotationProcessor</id>		
+					<goals>
+						<goal>process</goal>
+					</goals>
+					<configuration>
+						<outputDirectory>target/generated-sources/java</outputDirectory>
+						<processors>
+							<processor>com.cloudyle.paasplus.services.persistence.apt.paasplusindex.PaasplusIndexAnnotationProcessor</processor>							
+						</processors>
+						<options>
+							<querydsl.entityAccessors>true</querydsl.entityAccessors>
+              				<querydsl.prefix>IDX</querydsl.prefix>
+            			</options>
+					</configuration>
+				</execution>									
+			</executions>
+		</plugin> -->
+		<plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <id>attach-artifacts</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>src/main/resources/karaf/etc/aries.jpa.persistence.petclinic.nosql.cfg</file>
+                  <type>cfg</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin> 
+    </plugins>
+  </build>
+
+</project>
