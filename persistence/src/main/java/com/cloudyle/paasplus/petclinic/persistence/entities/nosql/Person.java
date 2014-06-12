@@ -28,6 +28,7 @@ import org.eclipse.persistence.nosql.annotations.NoSql;
  * Simple JavaBean domain object representing an person.
  *
  * @author Ken Krebs
+ * @author Alexander Grzesik
  */
 @MappedSuperclass
 @NoSql(dataFormat=DataFormatType.MAPPED)

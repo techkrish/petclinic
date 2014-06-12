@@ -29,6 +29,7 @@ import org.eclipse.persistence.nosql.annotations.NoSql;
  * Simple JavaBean domain object representing a visit.
  * 
  * @author Ken Krebs
+ * @author Alexander Grzesik
  */
 @Embeddable
 @NoSql(dataFormat = DataFormatType.MAPPED)

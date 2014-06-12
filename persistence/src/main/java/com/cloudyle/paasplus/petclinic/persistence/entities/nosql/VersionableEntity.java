@@ -29,6 +29,7 @@ import com.cloudyle.paasplus.services.persistence.data.IVersionablePaasplusEntit
  * 
  * @version $Revision: 1.1.1.1 $
  * @author tn
+ * @author Alexander Grzesik
  * @since
  */
 @MappedSuperclass

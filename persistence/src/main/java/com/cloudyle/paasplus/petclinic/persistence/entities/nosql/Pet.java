@@ -42,6 +42,7 @@ import org.eclipse.persistence.nosql.annotations.NoSql;
  * @author Ken Krebs
  * @author Juergen Hoeller
  * @author Sam Brannen
+ * @author Alexander Grzesik
  */
 @Entity
 @NoSql(dataFormat = DataFormatType.MAPPED, dataType = "pets")
