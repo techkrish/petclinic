@@ -65,7 +65,7 @@ public class LoginView extends LoginForm implements View {
 					+ userName);
 			return false;
 		}
-		VaadinSession.getCurrent().setAttribute("user", user.iterator().next());
+		VaadinSession.getCurrent().setAttribute("USER", user.iterator().next());
 		return true;
 	}
 

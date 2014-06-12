@@ -92,9 +92,8 @@ public class PetClinicUI extends BasicFrameworkUI {
 		final Label logo = new Label("<span>Paasplus</span> Demo",
 				ContentMode.HTML);
 
-		// logo.addStyleName("h3 color");
 		logo.setSizeUndefined();
-		// branding.addComponent(logo);
+
 		branding.addComponent(new Image(null, new ThemeResource("img/logo.png")));
 
 		branding.setHeight("100px");
@@ -123,9 +122,7 @@ public class PetClinicUI extends BasicFrameworkUI {
 		layout.addComponent(new Label("Cloudyle PaaS+ PetClinic"));
 		final Button exit = new Button("logout");
 		exit.setStyleName("borderless");
-		// layout.setComponentAlignment(exit, Alignment.TOP_CENTER);
-		// exit.setIcon(new ThemeResource("icons/32/button-cross.png"));
-		// layout.addComponent(exit);
+
 		exit.setDescription("Sign Out");
 		exit.addClickListener(new ClickListener() {
 
@@ -137,33 +134,6 @@ public class PetClinicUI extends BasicFrameworkUI {
 		});
 		return layout;
 	}
-
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see
-	// com.cloudyle.paasplus.ui.framework.BasicFrameworkUI#getMenuComponents(java.lang.String)
-	// */
-	// @Override
-	// protected List<MenuComponent> getMenuComponents(final String menuTitle)
-	// {
-	// List<MenuComponent> items = this.menuItems.get(menuTitle);
-	// return items != null ? items : new ArrayList<MenuComponent>();
-	// }
-	//
-	//
-	//
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see
-	// com.cloudyle.paasplus.ui.framework.BasicFrameworkUI#getMenuLabels()
-	// */
-	// @Override
-	// protected List<String> getMenuLabels()
-	// {
-	// return this.menuTitles;
-	// }
 
 	/*
 	 * (non-Javadoc)
@@ -192,11 +162,8 @@ public class PetClinicUI extends BasicFrameworkUI {
 
 	@Override
 	protected boolean isAuthenticated() {
-		// throw new UnsupportedOperationException("Not yet implemented.");
-		// return userName.equalsIgnoreCase("Tresor") &&
-		// userName.equals(password);
-		return "medisite20".equals(VaadinSession.getCurrent().getAttribute(
-				"USER"));
+
+		return VaadinSession.getCurrent().getAttribute("USER") != null;
 	}
 
 	/*
@@ -211,17 +178,13 @@ public class PetClinicUI extends BasicFrameworkUI {
 
 	public void openPatient(final Pet pet) {
 		this.model.setSelectedPet(pet);
-		// this.contentNavigator.navigateTo("/patient");
-		// this.mainContent.clearMenuSelection();
-		// this.viewNameToMenuButton.get("/patient").addStyleName("selected");
+
 	}
 
 	public void openReports(final Table t) {
 		this.patients = t;
 		this.autoCreateReport = true;
-		// this.contentNavigator.navigateTo("/reports");
-		// this.mainContent.clearMenuSelection();
-		// this.viewNameToMenuButton.get("/reports").addStyleName("selected");
+
 	}
 
 }

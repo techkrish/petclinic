@@ -71,8 +71,6 @@ public class ClinicView extends VerticalLayout implements View {
 
 		this.data = ((PetClinicUI) getUI()).getModel().getPetTable();
 
-		// this.data.resetIcons();
-
 		setSizeFull();
 		addStyleName("transactions");
 
@@ -113,8 +111,7 @@ public class ClinicView extends VerticalLayout implements View {
 			public void itemClick(final ItemClickEvent event) {
 				if (event.getButton() == MouseButton.LEFT
 						&& event.isDoubleClick()) {
-					final Item item = event.getItem();// ((Table)
-														// sender).getItem(target);
+					final Item item = event.getItem();
 					if (item != null) {
 						// TODO: Selection
 						// final Pet pat = ClinicView.this.pets.get((int) item
@@ -151,12 +148,7 @@ public class ClinicView extends VerticalLayout implements View {
 					@Override
 					public boolean appliesToProperty(final Object propertyId) {
 						if (propertyId.equals("Name")
-								|| propertyId.equals("Vorname") /*
-																 * ||
-																 * propertyId.
-																 * equals
-																 * ("Bett")
-																 */) {
+								|| propertyId.equals("Owner Name")) {
 							return true;
 						}
 						return false;
@@ -174,12 +166,7 @@ public class ClinicView extends VerticalLayout implements View {
 
 						return filterByProperty("Name", item, event.getText())
 								|| filterByProperty("Vorname", item,
-										event.getText()) /*
-														 * ||
-														 * filterByProperty("Title"
-														 * , item,
-														 * event.getText())
-														 */;
+										event.getText());
 
 					}
 				});
@@ -218,9 +205,9 @@ public class ClinicView extends VerticalLayout implements View {
 
 		this.t.addActionHandler(new Handler() {
 
-			private final Action report = new Action("Bericht erzeugen");
+			private final Action report = new Action("Create Report");
 
-			private final Action discard = new Action("Verlegen");
+			private final Action discard = new Action("Transfer");
 
 			private final Action details = new Action("Details");
 
@@ -297,7 +284,7 @@ public class ClinicView extends VerticalLayout implements View {
 	}
 
 	private void sortTable() {
-		this.t.sort(new Object[] { "Bett" }, new boolean[] { true });
+		this.t.sort(new Object[] { "Name" }, new boolean[] { true });
 	}
 
 }
