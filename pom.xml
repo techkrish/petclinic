@@ -27,6 +27,9 @@
     <com.cloudyle.paasplus>${basedir}/../..</com.cloudyle.paasplus>
     <javac.version>1.7</javac.version> 
     <paasplus.bundle.name.prefix.samples>PaaS+ Sample - PetClinic</paasplus.bundle.name.prefix.samples>
+      <paasplus.persistence.api.version>0.9.0</paasplus.persistence.api.version>
+     <paasplus.persistence.apt.version>0.9.0</paasplus.persistence.apt.version>
+     <paasplus.persistence.provider.version>0.9.0</paasplus.persistence.provider.version>
   </properties>
 
 
@@ -36,6 +39,7 @@
   <version>0.9.0</version>
   <name>${paasplus.bundle.name.prefix.samples}</name>
 
+ 
   <repositories>
 	<!--  This is our Maven repository server.
 		  It should always be on top in the list of repositories.

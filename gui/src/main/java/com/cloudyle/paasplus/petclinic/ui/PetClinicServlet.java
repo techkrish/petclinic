@@ -9,23 +9,19 @@
  */
 package com.cloudyle.paasplus.petclinic.ui;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-
-import com.cloudyle.paasplus.ui.framework.VaadinOSGiHelper;
-import com.vaadin.server.VaadinServlet;
+import com.cloudyle.paasplus.ui.framework.BasicFrameworkServlet;
+import com.cloudyle.paasplus.ui.framework.BasicFrameworkServletService;
 
 /**
  * @author ag
  * 
  */
-public class PetClinicServlet extends VaadinServlet {
+public class PetClinicServlet extends BasicFrameworkServlet {
 
 	@Override
-	public void init(final ServletConfig servletConfig) throws ServletException {
-		VaadinOSGiHelper.clearRPCCache();
-		super.init(servletConfig);
-		System.out.println("Petclinic Servlet Started");
+	protected PaasplusPetClinicSession createCustomSession(
+			BasicFrameworkServletService vaadinService) {
+		return new PaasplusPetClinicSession(vaadinService);
 	}
 
 }

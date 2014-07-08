@@ -32,22 +32,39 @@
     <dependency>
       <groupId>com.cloudyle.paasplus</groupId>
       <artifactId>com.cloudyle.paasplus.services.persistence.api</artifactId>
-      <version>${project.version}</version>
+      <version>${paasplus.persistence.api.version}</version>
       <scope>compile</scope>	
     </dependency>
     <dependency>
       <groupId>com.cloudyle.paasplus</groupId>
       <artifactId>com.cloudyle.paasplus.services.persistence.provider</artifactId>
-      <version>${project.version}</version>
+      <version>${paasplus.persistence.provider.version}</version>
       <scope>compile</scope>
    </dependency>
+   <dependency>
+      <groupId>org.eclipse.persistence</groupId>
+      <artifactId>org.eclipse.persistence.nosql</artifactId>
+      <version>2.5.1</version>
+       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.persistence</groupId>
+      <artifactId>javax.persistence</artifactId>
+       <version>2.1.0</version>
+       <scope>compile</scope>
+    </dependency>   
+    <dependency>
+    	<groupId>org.apache.commons</groupId>
+    	<artifactId>commons-lang3</artifactId>
+    	<version>3.1</version>
+     </dependency>
     
     
         
     <dependency>
     	<groupId>com.cloudyle.paasplus</groupId>
     	<artifactId>com.cloudyle.paasplus.services.persistence.apt</artifactId>
-    	<version>${project.version}</version>
+    	<version>${paasplus.persistence.apt.version}</version>
     	<scope>provided</scope>
     </dependency>
   </dependencies>

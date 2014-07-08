@@ -26,8 +26,8 @@ import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Pet;
 import com.cloudyle.paasplus.petclinic.ui.module.ClinicModule;
 import com.cloudyle.paasplus.ui.framework.BasicFrameworkUI;
 import com.cloudyle.paasplus.ui.framework.LoginHandler;
-import com.cloudyle.paasplus.ui.framework.MenuComponentEntry;
 import com.cloudyle.paasplus.ui.framework.Module;
+import com.cloudyle.paasplus.ui.framework.menu.MenuComponentEntry;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.event.Transferable;
@@ -83,6 +83,7 @@ public class PetClinicUI extends BasicFrameworkUI {
 		} catch (final NamingException e) {
 			log.error("Clinic Service not found! ", e);
 		}
+		setDefaultView("overview");
 
 	}
 
@@ -129,7 +130,7 @@ public class PetClinicUI extends BasicFrameworkUI {
 			@Override
 			public void buttonClick(final ClickEvent event) {
 				VaadinSession.getCurrent().setAttribute("USER", null);
-				buildLoginView();
+
 			}
 		});
 		return layout;
@@ -158,22 +159,6 @@ public class PetClinicUI extends BasicFrameworkUI {
 
 		}
 		return this.modules;
-	}
-
-	@Override
-	protected boolean isAuthenticated() {
-
-		return VaadinSession.getCurrent().getAttribute("USER") != null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.cloudyle.paasplus.ui.framework.BasicFrameworkUI#mainViewReady()
-	 */
-	@Override
-	protected void mainViewReady() {
-		getNavigator().navigateTo("overview");
 	}
 
 	public void openPatient(final Pet pet) {
