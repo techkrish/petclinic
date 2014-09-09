@@ -3,6 +3,8 @@ petclinic
 
 PetClinic Tutorial for OSGi
 
+See http://devcenter.cloudyle.com/display/PAAS/Pet+Clinic+Tutorial for detailed description
+
 Introduction
 
 This tutorial shows the basic usage of the PaaS+ platform and the Enterprise API.
