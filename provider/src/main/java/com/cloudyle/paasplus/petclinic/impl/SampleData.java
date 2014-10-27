@@ -11,9 +11,8 @@ import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Pet;
 import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Vet;
 import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Visit;
 import com.cloudyle.paasplus.services.catalog.ICatalogService;
+import com.cloudyle.paasplus.services.catalog.data.CustomCode;
 import com.cloudyle.paasplus.services.catalog.data.ICatalog;
-import com.cloudyle.paasplus.services.catalog.data.ICustomCode;
-import com.cloudyle.paasplus.services.catalog.enums.CodeTypes;
 import com.cloudyle.paasplus.services.catalog.exceptions.CatalogServiceException;
 import com.cloudyle.paasplus.services.persistence.IPersistenceService;
 import com.cloudyle.paasplus.services.persistence.data.IJQLQuery;
@@ -21,200 +20,198 @@ import com.cloudyle.paasplus.services.persistence.exceptions.PersistenceExceptio
 
 public class SampleData {
 
-	private static Logger logger = LoggerFactory
-			.getLogger(ClinicServiceImpl.class);
+  private static Logger logger = LoggerFactory
+      .getLogger(ClinicServiceImpl.class);
 
-	private ICatalogService catalogService;
-	private IPersistenceService persistenceService;
-	private boolean createSampleData = true;
+  private ICatalogService catalogService;
+  private IPersistenceService persistenceService;
+  private boolean createSampleData = true;
 
-	protected Owner createOwner(String firstName, String lastName,
-			String address) {
-		try {
+  protected Owner createOwner(final String firstName, final String lastName,
+      final String address) {
+    try {
 
-			IJQLQuery<Owner> query = persistenceService.createNamedJQLQuery(
-					"Owner.getByName", Owner.class);
-			query.addNamedParameter("name", lastName);
+      final IJQLQuery<Owner> query = this.persistenceService.createNamedJQLQuery(
+          "Owner.getByName", Owner.class);
+      query.addNamedParameter("name", lastName);
 
-			List<Owner> queryResult = persistenceService.executeQuery(query);
-			if (queryResult.size() > 0) {
-				logger.info("Found Owner data: {}", lastName);
-				return null;
-			}
+      final List<Owner> queryResult = this.persistenceService.executeQuery(query);
+      if (queryResult.size() > 0) {
+        logger.info("Found Owner data: {}", lastName);
+        return null;
+      }
 
-			Owner owner = new Owner();
-			owner.setFirstName(firstName);
-			owner.setLastName(lastName);
-			owner.setAddress(address);
+      final Owner owner = new Owner();
+      owner.setFirstName(firstName);
+      owner.setLastName(lastName);
+      owner.setAddress(address);
 
-			return persistenceService.persist(owner);
-		} catch (PersistenceException e) {
-			logger.info("Exception while creating sample owner data: "
-					+ lastName, e);
-			return null;
-		}
-	}
+      return this.persistenceService.persist(owner);
+    } catch (final PersistenceException e) {
+      logger.info("Exception while creating sample owner data: "
+          + lastName, e);
+      return null;
+    }
+  }
 
-	protected Pet createPet(String name, Date birth, String type, Owner owner) {
-		try {
+  protected Pet createPet(final String name, final Date birth, final String type, final Owner owner) {
+    try {
 
-			Pet pet = new Pet();
-			pet.setBirthDate(birth);
-			pet.setName(name);
-			pet.setType(type);
-			Visit v = new Visit();
-			v.setDate(new Date());
-			v.setDescription("Illness of " + name);
-			pet.addVisit(v);
+      final Pet pet = new Pet();
+      pet.setBirthDate(birth);
+      pet.setName(name);
+      pet.setType(type);
+      final Visit v = new Visit();
+      v.setDate(new Date());
+      v.setDescription("Illness of " + name);
+      pet.addVisit(v);
 
-			owner.addPet(pet);
+      owner.addPet(pet);
 
-			return persistenceService.persist(pet);
-		} catch (PersistenceException e) {
-			logger.info("Exception while creating sample pet data: " + name, e);
-			return null;
-		}
-	}
+      return this.persistenceService.persist(pet);
+    } catch (final PersistenceException e) {
+      logger.info("Exception while creating sample pet data: " + name, e);
+      return null;
+    }
+  }
 
-	protected Owner createPetAndOwner(String firstName, String lastName,
-			String address, String petName, String petType, Date petBirth) {
-		try {
+  protected Owner createPetAndOwner(final String firstName, final String lastName,
+      final String address, final String petName, final String petType, final Date petBirth) {
+    try {
 
-			Owner owner = createOwner(firstName, lastName, address);
-			if (owner == null) {
-				return null;
-			}
-			createPet(petName, petBirth, petType, owner);
+      final Owner owner = createOwner(firstName, lastName, address);
+      if (owner == null) {
+        return null;
+      }
+      createPet(petName, petBirth, petType, owner);
 
-			return persistenceService.persist(owner);
-		} catch (PersistenceException e) {
-			logger.info("Exception while creating sample owner data: "
-					+ lastName, e);
-			return null;
-		}
-	}
+      return this.persistenceService.persist(owner);
+    } catch (final PersistenceException e) {
+      logger.info("Exception while creating sample owner data: "
+          + lastName, e);
+      return null;
+    }
+  }
 
-	private void createPetTypes() {
-		try {
-			ICatalog<ICustomCode> catalog = catalogService.getCatalog(
-					"PetTypes", "1");
-			if (catalog != null) {
-				catalogService.deleteCatalog(catalog);
-			}
+  private void createPetTypes() {
+    try {
+      ICatalog<CustomCode> catalog = this.catalogService.getCatalog(
+          "PetTypes", "1");
+      if (catalog != null) {
+        this.catalogService.removeCatalog(catalog);
+      }
 
-			catalog = catalogService.createCatalog(CodeTypes.CUSTOM);
-			catalog.setName("PetTypes");
-			catalog.setCatalogVersion("1");
-			catalog = catalogService.saveCatalog(catalog);
-			ICustomCode code = catalogService.createCode(catalog, "100", "Dog");
-			catalogService.addToCatalog(code, catalog);
-			code = catalogService.createCode(catalog, "200", "Cat");
-			catalogService.addToCatalog(code, catalog);
-			code = catalogService.createCode(catalog, "300", "Hamster");
-			catalogService.addToCatalog(code, catalog);
-			catalogService.saveCatalog(catalog);
+      catalog = this.catalogService.createCatalog(CustomCode.class, "PetTypes");
+      catalog.setCatalogVersion("1");
+      catalog = this.catalogService.saveCatalog(catalog);
+      CustomCode code = new CustomCode("100", "Dog");
+      this.catalogService.addToCatalog(code, catalog);
+      code = new CustomCode("200", "Cat");
+      this.catalogService.addToCatalog(code, catalog);
+      code = new CustomCode("300", "Hamster");
+      this.catalogService.addToCatalog(code, catalog);
+      this.catalogService.saveCatalog(catalog);
 
-		} catch (CatalogServiceException e) {
-			logger.info("Exception while creating sample Type data:", e);
-		}
-	}
+    } catch (final CatalogServiceException e) {
+      logger.info("Exception while creating sample Type data:", e);
+    }
+  }
 
-	public void createSampleData() {
-		if (createSampleData) {
-			createPetTypes();
-			createSpecialities();
-			createVet("John", "Dover", "S1", "S2");
-			createVet("Jane", "Meyers", "S2");
-			createVet("Frank", "Smith", "S2", "S3");
-			createPetAndOwner("Joe", "Williams", "123 Main Street", "Aunty",
-					"200", new Date());
-			createPetAndOwner("Sarah", "Scott", "456 River Road", "Barky",
-					"100", new Date());
-			createPetAndOwner("Billy", "Minsc", "231 Market Place", "Boo",
-					"300", new Date());
-		}
+  public void createSampleData() {
+    if (this.createSampleData) {
+      createPetTypes();
+      createSpecialities();
+      createVet("John", "Dover", "S1", "S2");
+      createVet("Jane", "Meyers", "S2");
+      createVet("Frank", "Smith", "S2", "S3");
+      createPetAndOwner("Joe", "Williams", "123 Main Street", "Aunty",
+          "200", new Date());
+      createPetAndOwner("Sarah", "Scott", "456 River Road", "Barky",
+          "100", new Date());
+      createPetAndOwner("Billy", "Minsc", "231 Market Place", "Boo",
+          "300", new Date());
+    }
 
-	}
+  }
 
-	private void createSpecialities() {
-		try {
-			ICatalog<ICustomCode> catalog = catalogService.getCatalog(
-					"Specialities", "1");
+  private void createSpecialities() {
+    try {
+      ICatalog<CustomCode> catalog = this.catalogService.getCatalog(
+          "Specialities", "1");
 
-			if (catalog != null) {
-				catalogService.deleteCatalog(catalog);
-			}
+      if (catalog != null) {
+        this.catalogService.removeCatalog(catalog);
+      }
 
-			catalog = catalogService.createCatalog(CodeTypes.CUSTOM);
-			catalog.setName("Specialities");
-			catalog.setCatalogVersion("1");
-			catalog = catalogService.saveCatalog(catalog);
-			ICustomCode code = catalogService.createCode(catalog, "S1",
-					"radiology");
-			catalogService.addToCatalog(code, catalog);
-			code = catalogService.createCode(catalog, "S2", "surgery");
-			catalogService.addToCatalog(code, catalog);
-			code = catalogService.createCode(catalog, "S3", "dentistry");
-			catalogService.addToCatalog(code, catalog);
-			catalogService.saveCatalog(catalog);
+      catalog = this.catalogService.createCatalog(CustomCode.class, "Specialities");
+      catalog.setCatalogVersion("1");
+      catalog = this.catalogService.saveCatalog(catalog);
+      CustomCode code = new CustomCode("S1",
+          "radiology");
+      this.catalogService.addToCatalog(code, catalog);
+      code = new CustomCode("S2", "surgery");
+      this.catalogService.addToCatalog(code, catalog);
+      code = new CustomCode("S3", "dentistry");
+      this.catalogService.addToCatalog(code, catalog);
+      this.catalogService.saveCatalog(catalog);
 
-		} catch (CatalogServiceException e) {
-			logger.info("Exception while creating sample speciality data:", e);
-		}
-	}
+    } catch (final CatalogServiceException e) {
+      logger.info("Exception while creating sample speciality data:", e);
+    }
+  }
 
-	protected Vet createVet(String firstName, String lastName,
-			String... specialities) {
-		try {
+  protected Vet createVet(final String firstName, final String lastName,
+      final String... specialities) {
+    try {
 
-			IJQLQuery<Vet> query = persistenceService.createNamedJQLQuery(
-					"Vet.getByName", Vet.class);
-			query.addNamedParameter("name", lastName);
+      final IJQLQuery<Vet> query = this.persistenceService.createNamedJQLQuery(
+          "Vet.getByName", Vet.class);
+      query.addNamedParameter("name", lastName);
 
-			List<Vet> queryResult = persistenceService.executeQuery(query);
-			if (queryResult.size() > 0) {
-				logger.info("Found vet data: {}", lastName);
-				return null;
-			}
+      final List<Vet> queryResult = this.persistenceService.executeQuery(query);
+      if (queryResult.size() > 0) {
+        logger.info("Found vet data: {}", lastName);
+        return null;
+      }
 
-			Vet vet = new Vet();
-			vet.setFirstName(firstName);
-			vet.setLastName(lastName);
+      final Vet vet = new Vet();
+      vet.setFirstName(firstName);
+      vet.setLastName(lastName);
 
-			for (String speciality : specialities) {
-				vet.addSpecality(speciality);
-			}
+      for (final String speciality : specialities) {
+        vet.addSpecality(speciality);
+      }
 
-			return persistenceService.persist(vet);
-		} catch (PersistenceException e) {
-			logger.info(
-					"Exception while creating sample vet data: " + lastName, e);
-			return null;
-		}
-	}
+      return this.persistenceService.persist(vet);
+    } catch (final PersistenceException e) {
+      logger.info(
+          "Exception while creating sample vet data: " + lastName, e);
+      return null;
+    }
+  }
 
-	public ICatalogService getCatalogService() {
-		return catalogService;
-	}
+  public ICatalogService getCatalogService() {
+    return this.catalogService;
+  }
 
-	public IPersistenceService getPersistenceService() {
-		return persistenceService;
-	}
+  public IPersistenceService getPersistenceService() {
+    return this.persistenceService;
+  }
 
-	public boolean isCreateSampleData() {
-		return createSampleData;
-	}
+  public boolean isCreateSampleData() {
+    return this.createSampleData;
+  }
 
-	public void setCatalogService(ICatalogService catalogService) {
-		this.catalogService = catalogService;
-	}
+  public void setCatalogService(final ICatalogService catalogService) {
+    this.catalogService = catalogService;
+  }
 
-	public void setCreateSampleData(boolean createSampleData) {
-		this.createSampleData = createSampleData;
-	}
+  public void setCreateSampleData(final boolean createSampleData) {
+    this.createSampleData = createSampleData;
+  }
 
-	public void setPersistenceService(IPersistenceService persistenceService) {
-		this.persistenceService = persistenceService;
-	}
+  public void setPersistenceService(final IPersistenceService persistenceService) {
+    this.persistenceService = persistenceService;
+  }
 
 }
