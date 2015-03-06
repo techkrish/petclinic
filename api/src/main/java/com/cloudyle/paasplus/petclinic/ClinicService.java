@@ -22,42 +22,61 @@ import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Owner;
 import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Pet;
 import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Vet;
 import com.cloudyle.paasplus.services.catalog.data.ICatalog;
-import com.cloudyle.paasplus.services.catalog.data.ICode;
 import com.cloudyle.paasplus.services.catalog.exceptions.CatalogServiceException;
 import com.cloudyle.paasplus.services.persistence.exceptions.PersistenceException;
+
 
 /**
  * Mostly used as a facade for all Petclinic controllers
  * 
  * @author Michael Isvy
  */
-public interface ClinicService {
+public interface ClinicService
+{
 
-	Owner findOwnerById(String id) throws PersistenceException;
 
-	Collection<Owner> findOwnerByLastName(String lastName)
-			throws PersistenceException;
+  Owner findOwnerById(String id) throws PersistenceException;
 
-	Pet findPetById(String id) throws PersistenceException;
 
-	List<Pet> findPets() throws PersistenceException;
 
-	Collection<Vet> findVetByLastName(String lastName)
-			throws PersistenceException;
+  Collection<Owner> findOwnerByLastName(String lastName) throws PersistenceException;
 
-	Collection<Vet> findVets() throws PersistenceException;
 
-	ICatalog<? extends ICode> getPetTypes() throws CatalogServiceException;
 
-	// void saveVisit(Visit visit) throws PersistenceException;
+  Pet findPetById(String id) throws PersistenceException;
 
-	ICatalog<? extends ICode> getVetSpecalities()
-			throws CatalogServiceException;
 
-	byte[] printPets(Collection<Pet> pets);
 
-	void saveOwner(Owner owner) throws PersistenceException;
+  List<Pet> findPets() throws PersistenceException;
 
-	void savePet(Pet pet) throws PersistenceException;
+
+
+  Collection<Vet> findVetByLastName(String lastName) throws PersistenceException;
+
+
+
+  Collection<Vet> findVets() throws PersistenceException;
+
+
+
+  ICatalog getPetTypes() throws CatalogServiceException;
+
+
+
+  // void saveVisit(Visit visit) throws PersistenceException;
+
+  ICatalog getVetSpecalities() throws CatalogServiceException;
+
+
+
+  byte[] printPets(Collection<Pet> pets);
+
+
+
+  void saveOwner(Owner owner) throws PersistenceException;
+
+
+
+  void savePet(Pet pet) throws PersistenceException;
 
 }

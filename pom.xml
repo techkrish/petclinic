@@ -27,16 +27,16 @@
     <com.cloudyle.paasplus>${basedir}/../..</com.cloudyle.paasplus>
     <javac.version>1.7</javac.version> 
     <paasplus.bundle.name.prefix.samples>PaaS+ Sample - PetClinic</paasplus.bundle.name.prefix.samples>
-      <paasplus.persistence.api.version>0.9.0</paasplus.persistence.api.version>
-     <paasplus.persistence.apt.version>0.9.0</paasplus.persistence.apt.version>
-     <paasplus.persistence.provider.version>0.9.0</paasplus.persistence.provider.version>
+      <paasplus.persistence.api.version>2.0.0</paasplus.persistence.api.version>
+     <paasplus.persistence.apt.version>2.0.0</paasplus.persistence.apt.version>
+     <paasplus.persistence.provider.version>2.0.0</paasplus.persistence.provider.version>
   </properties>
 
 
   <groupId>com.cloudyle.paasplus.samples</groupId>
   <artifactId>com.cloudyle.paasplus.samples.petclinic</artifactId>
   <packaging>pom</packaging>
-  <version>0.9.0</version>
+  <version>2.0.0</version>
   <name>${paasplus.bundle.name.prefix.samples}</name>
 
  
@@ -58,7 +58,7 @@
 		<enabled>true</enabled>
 		<updatePolicy>interval:10080</updatePolicy>
 	  </snapshots>
-	</repository> 
+	</repository>
   </repositories>
 
 <build>

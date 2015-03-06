@@ -14,120 +14,186 @@ import com.cloudyle.paasplus.services.catalog.ICatalogService;
 import com.cloudyle.paasplus.services.catalog.data.ICatalog;
 import com.cloudyle.paasplus.services.catalog.data.ICode;
 import com.cloudyle.paasplus.services.catalog.exceptions.CatalogServiceException;
+import com.cloudyle.paasplus.services.catalog.exceptions.DuplicateCodesException;
 import com.cloudyle.paasplus.services.persistence.IPersistenceService;
 import com.cloudyle.paasplus.services.persistence.data.IJQLQuery;
 import com.cloudyle.paasplus.services.persistence.exceptions.PersistenceException;
 
-public class ClinicServiceImpl implements ClinicService {
 
-	private static Logger logger = LoggerFactory
-			.getLogger(ClinicServiceImpl.class);
+public class ClinicServiceImpl implements ClinicService
+{
 
-	private IPersistenceService persistenceService;
 
-	private ICatalogService catalogService;
+  private static Logger logger = LoggerFactory.getLogger(ClinicServiceImpl.class);
 
-	private ReportHelper reportHelper;
+  private IPersistenceService persistenceService;
 
-	@Override
-	public Owner findOwnerById(String id) throws PersistenceException {
+  private ICatalogService catalogService;
 
-		return persistenceService.find(id, Owner.class);
-	}
+  private ReportHelper reportHelper;
 
-	@Override
-	public Collection<Owner> findOwnerByLastName(String lastName)
-			throws PersistenceException {
 
-		IJQLQuery<Owner> query = persistenceService.createNamedJQLQuery(
-				"Owner.getByName", Owner.class);
-		query.addNamedParameter("name", lastName);
-		return persistenceService.executeQuery(query);
-	}
 
-	@Override
-	public Pet findPetById(String id) throws PersistenceException {
+  @Override
+  public Owner findOwnerById(final String id) throws PersistenceException
+  {
 
-		return persistenceService.find(id, Pet.class);
-	}
+    return this.persistenceService.find(id, Owner.class);
+  }
 
-	@Override
-	public List<Pet> findPets() throws PersistenceException {
-		IJQLQuery<Pet> query = persistenceService.createJQLQuery(
-				"select p from Pet p", Pet.class);
-		return persistenceService.executeQuery(query);
-	}
 
-	@Override
-	public Collection<Vet> findVetByLastName(String lastName)
-			throws PersistenceException {
 
-		IJQLQuery<Vet> query = persistenceService.createNamedJQLQuery(
-				"Vet.getByName", Vet.class);
-		query.addNamedParameter("name", lastName);
-		return persistenceService.executeQuery(query);
-	}
+  @Override
+  public Collection<Owner> findOwnerByLastName(final String lastName) throws PersistenceException
+  {
 
-	@Override
-	public Collection<Vet> findVets() throws PersistenceException {
-		IJQLQuery<Vet> query = persistenceService.createJQLQuery(
-				"select v from Vet v", Vet.class);
-		return persistenceService.executeQuery(query);
-	}
+    final IJQLQuery<Owner> query = this.persistenceService.createNamedJQLQuery("Owner.getByName", Owner.class);
+    query.addNamedParameter("name", lastName);
+    return this.persistenceService.executeQuery(query);
+  }
 
-	public ICatalogService getCatalogService() {
-		return catalogService;
-	}
 
-	public IPersistenceService getPersistenceService() {
-		return persistenceService;
-	}
 
-	@Override
-	public ICatalog<? extends ICode> getPetTypes()
-			throws CatalogServiceException {
+  @Override
+  public Pet findPetById(final String id) throws PersistenceException
+  {
 
-		return catalogService.getCatalog("PetTypes", "1");
-	}
+    return this.persistenceService.find(id, Pet.class);
+  }
 
-	public ReportHelper getReportHelper() {
-		return reportHelper;
-	}
 
-	@Override
-	public ICatalog<? extends ICode> getVetSpecalities()
-			throws CatalogServiceException {
-		return catalogService.getCatalog("Specialities", "1");
-	}
 
-	@Override
-	public byte[] printPets(Collection<Pet> pets) {
-		return reportHelper.createReport("dynamicReportTemplate", "PetReport",
-				pets);
-	}
+  @Override
+  public List<Pet> findPets() throws PersistenceException
+  {
+    final IJQLQuery<Pet> query = this.persistenceService.createJQLQuery("select p from Pet p", Pet.class);
+    return this.persistenceService.executeQuery(query);
+  }
 
-	@Override
-	public void saveOwner(Owner owner) throws PersistenceException {
-		persistenceService.persist(owner);
 
-	}
 
-	@Override
-	public void savePet(Pet pet) throws PersistenceException {
-		persistenceService.persist(pet);
+  @Override
+  public Collection<Vet> findVetByLastName(final String lastName) throws PersistenceException
+  {
 
-	}
+    final IJQLQuery<Vet> query = this.persistenceService.createNamedJQLQuery("Vet.getByName", Vet.class);
+    query.addNamedParameter("name", lastName);
+    return this.persistenceService.executeQuery(query);
+  }
 
-	public void setCatalogService(ICatalogService catalogService) {
-		this.catalogService = catalogService;
-	}
 
-	public void setPersistenceService(IPersistenceService persistenceService) {
-		this.persistenceService = persistenceService;
-	}
 
-	public void setReportHelper(ReportHelper reportHelper) {
-		this.reportHelper = reportHelper;
-	}
+  @Override
+  public Collection<Vet> findVets() throws PersistenceException
+  {
+    final IJQLQuery<Vet> query = this.persistenceService.createJQLQuery("select v from Vet v", Vet.class);
+    return this.persistenceService.executeQuery(query);
+  }
+
+
+
+  public ICatalogService getCatalogService()
+  {
+    return this.catalogService;
+  }
+
+
+
+  public IPersistenceService getPersistenceService()
+  {
+    return this.persistenceService;
+  }
+
+
+
+  @Override
+  public ICatalog getPetTypes() throws CatalogServiceException
+  {
+
+    return this.catalogService.getCatalog("PetTypes", "1");
+  }
+
+
+
+  public ICode getPetTypeFromCode(final String typeCode)
+  {
+    try
+    {
+      return this.catalogService.getCodeByName(typeCode, "PetTypes", "1");
+    }
+    catch (final CatalogServiceException e)
+    {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    catch (final DuplicateCodesException e)
+    {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+
+
+  public ReportHelper getReportHelper()
+  {
+    return this.reportHelper;
+  }
+
+
+
+  @Override
+  public ICatalog getVetSpecalities() throws CatalogServiceException
+  {
+    return this.catalogService.getCatalog("Specialities", "1");
+  }
+
+
+
+  @Override
+  public byte[] printPets(final Collection<Pet> pets)
+  {
+    return this.reportHelper.createReport("dynamicReportTemplate", "PetReport", pets);
+  }
+
+
+
+  @Override
+  public void saveOwner(final Owner owner) throws PersistenceException
+  {
+    this.persistenceService.persist(owner);
+
+  }
+
+
+
+  @Override
+  public void savePet(final Pet pet) throws PersistenceException
+  {
+    this.persistenceService.persist(pet);
+
+  }
+
+
+
+  public void setCatalogService(final ICatalogService catalogService)
+  {
+    this.catalogService = catalogService;
+  }
+
+
+
+  public void setPersistenceService(final IPersistenceService persistenceService)
+  {
+    this.persistenceService = persistenceService;
+  }
+
+
+
+  public void setReportHelper(final ReportHelper reportHelper)
+  {
+    this.reportHelper = reportHelper;
+  }
 
 }

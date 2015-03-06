@@ -23,7 +23,7 @@
         <!-- depended bundles used by index-api and index-provider -->                    
 		<configfile finalname="/etc/com.cloudyle.paasplus.petclinic.cfg">mvn:com.cloudyle.paasplus.samples/com.cloudyle.paasplus.samples.petclinic.provider/${project.version}/cfg</configfile>          
         <configfile finalname="/etc/aries.jpa.persistence.petclinic.nosql.cfg">mvn:com.cloudyle.paasplus.samples/com.cloudyle.paasplus.samples.petclinic.persistence/${project.version}/cfg</configfile> 
-        <feature>com.cloudyle.paasplus.core.mongodbcfg</feature>
+        <feature>mongodbcfg</feature>
         <feature>com.cloudyle.paasplus.karaf.vaadin</feature>
         <feature>com.cloudyle.paasplus.karaf.shiro</feature>
         <feature>paasplus-persistence-service</feature>

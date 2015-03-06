@@ -17,48 +17,60 @@ import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Pet;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 
-public class PetsContainer extends IndexedContainer {
 
-	private static final long serialVersionUID = 1L;
+public class PetsContainer extends IndexedContainer
+{
 
-	public PetsContainer() {
-		addContainerProperty("Name", String.class, "");
-		addContainerProperty("TypeCode", String.class, "");
-		addContainerProperty("Date of Birth", Date.class, new Date());
 
-		addContainerProperty("Owner Name", String.class, "");
+  private static final long serialVersionUID = 1L;
 
-		addContainerProperty("Owner Address", String.class, "");
 
-		addContainerProperty("Illness", String.class, "");
 
-	}
+  public PetsContainer()
+  {
+    addContainerProperty("Name", String.class, "");
+    addContainerProperty("TypeCode", String.class, "");
+    addContainerProperty("Date of Birth", Date.class, new Date());
 
-	private void addPet(final Pet pet) {
-		final Object id = addItem();
-		final Item item = getItem(id);
-		if (item != null) {
-			item.getItemProperty("Name").setValue(pet.getName());
-			item.getItemProperty("Date of Birth").setValue(pet.getBirthDate());
-			item.getItemProperty("Owner Name").setValue(
-					pet.getOwner().getLastName() + " "
-							+ pet.getOwner().getFirstName());
-			item.getItemProperty("Owner Address").setValue(
-					pet.getOwner().getAddress());
-			final String typeCode = pet.getType();
-			item.getItemProperty("TypeCode").setValue(typeCode);
+    addContainerProperty("Owner Name", String.class, "");
 
-			item.getItemProperty("Illness").setValue(
-					pet.getVisits().get(0).getDescription());
+    addContainerProperty("Owner Address", String.class, "");
 
-		}
-	}
+    addContainerProperty("Illness", String.class, "");
+    addContainerProperty("pet", Pet.class, "");
 
-	public void refresh(final List<Pet> patients) {
-		removeAllItems();
-		for (final Pet pat : patients) {
-			addPet(pat);
-		}
-	}
+  }
+
+
+
+  private void addPet(final Pet pet)
+  {
+    final Object id = addItem();
+    final Item item = getItem(id);
+    if (item != null)
+    {
+      item.getItemProperty("Name").setValue(pet.getName());
+      item.getItemProperty("Date of Birth").setValue(pet.getBirthDate());
+      item.getItemProperty("Owner Name").setValue(pet.getOwner().getLastName() + " " + pet.getOwner().getFirstName());
+      item.getItemProperty("Owner Address").setValue(pet.getOwner().getAddress());
+      final String typeCode = pet.getType();
+      item.getItemProperty("TypeCode").setValue(typeCode);
+
+      item.getItemProperty("Illness").setValue(pet.getVisits().get(0).getDescription());
+      item.getItemProperty("pet").setValue(pet);
+
+    }
+  }
+
+
+
+  public void refresh(final List<Pet> patients)
+  {
+    removeAllItems();
+    for (final Pet pat : patients)
+    {
+      addPet(pat);
+    }
+  }
 
 }

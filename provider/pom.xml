@@ -19,7 +19,7 @@
   <parent>
     <groupId>com.cloudyle.paasplus.samples</groupId>
     <artifactId>com.cloudyle.paasplus.samples.petclinic</artifactId>
-    <version>0.9.0</version>
+    <version>2.0.0</version>
     <relativePath>../</relativePath>
   </parent>
 
@@ -53,24 +53,24 @@
     	<version>${project.version}</version>
     </dependency>
     <dependency>
-    	<groupId>com.cloudyle.paasplus</groupId>
+    	<groupId>com.cloudyle.paasplus.platform.services</groupId>
     	<artifactId>
-    		com.cloudyle.paasplus.services.report.api
+    		report.api
     	</artifactId>
-    	<version>${project.version}</version>
+    	<version>2.0.0</version>
     </dependency>
    
     <dependency>
-      <groupId>com.cloudyle.paasplus</groupId>
-      <artifactId>com.cloudyle.paasplus.services.api</artifactId>
-      <version>${project.version}</version>
+      <groupId>com.cloudyle.paasplus.platform.services</groupId>
+      <artifactId>api</artifactId>
+      <version>2.0.0</version>
     </dependency>
     <dependency>
-    	<groupId>com.cloudyle.paasplus</groupId>
+    	<groupId>com.cloudyle.paasplus.platform.services</groupId>
     	<artifactId>
-    		com.cloudyle.paasplus.services.persistence.api
+    		persistence.api
     	</artifactId>
-    	<version>${project.version}</version>
+    	<version>2.0.0</version>
     </dependency>
   </dependencies>
 

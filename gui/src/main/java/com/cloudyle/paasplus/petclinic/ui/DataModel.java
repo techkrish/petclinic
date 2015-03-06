@@ -19,75 +19,113 @@ import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Pet;
 import com.cloudyle.paasplus.petclinic.ui.data.PetsContainer;
 import com.cloudyle.paasplus.services.catalog.ICatalogService;
 import com.cloudyle.paasplus.services.catalog.data.ICatalog;
-import com.cloudyle.paasplus.services.catalog.data.ICode;
+
 
 /**
  * @author ag
  * 
  */
-public class DataModel {
+public class DataModel
+{
 
-	private static Logger logger = LoggerFactory.getLogger(DataModel.class);
 
-	private Pet selectedPet;
+  private static Logger logger = LoggerFactory.getLogger(DataModel.class);
 
-	private List<Pet> pets;
+  private Pet selectedPet;
 
-	private final PetsContainer petTable = new PetsContainer();
+  private List<Pet> pets;
 
-	private ICatalog<? extends ICode> petTypes;
+  private final PetsContainer petTable = new PetsContainer();
 
-	private ICatalogService catalogService;
+  private ICatalog petTypes;
 
-	private ClinicService clinicService;
+  private ICatalogService catalogService;
 
-	public ICatalogService getCatalogService() {
-		return catalogService;
-	}
+  private ClinicService clinicService;
 
-	public ClinicService getClinicService() {
-		return clinicService;
-	}
 
-	public List<Pet> getPets() {
-		return pets;
-	}
 
-	public PetsContainer getPetTable() {
-		return petTable;
-	}
+  public ICatalogService getCatalogService()
+  {
+    return this.catalogService;
+  }
 
-	public ICatalog<? extends ICode> getPetTypes() {
-		return petTypes;
-	}
 
-	public Pet getSelectedPet() {
-		return selectedPet;
-	}
 
-	public void reload() {
-		this.pets = clinicService.findPets();
-		petTable.refresh(pets);
-	}
+  public ClinicService getClinicService()
+  {
+    return this.clinicService;
+  }
 
-	public void setCatalogService(ICatalogService catalogService) {
-		this.catalogService = catalogService;
-	}
 
-	public void setClinicService(ClinicService clinicService) {
-		this.clinicService = clinicService;
-	}
 
-	public void setPets(List<Pet> pets) {
-		this.pets = pets;
-	}
+  public List<Pet> getPets()
+  {
+    return this.pets;
+  }
 
-	public void setPetTypes(ICatalog<? extends ICode> petTypes) {
-		this.petTypes = petTypes;
-	}
 
-	public void setSelectedPet(Pet selectedPet) {
-		this.selectedPet = selectedPet;
-	}
+
+  public PetsContainer getPetTable()
+  {
+    return this.petTable;
+  }
+
+
+
+  public ICatalog getPetTypes()
+  {
+    return this.petTypes;
+  }
+
+
+
+  public Pet getSelectedPet()
+  {
+    return this.selectedPet;
+  }
+
+
+
+  public void reload()
+  {
+    this.pets = this.clinicService.findPets();
+    this.petTable.refresh(this.pets);
+  }
+
+
+
+  public void setCatalogService(final ICatalogService catalogService)
+  {
+    this.catalogService = catalogService;
+  }
+
+
+
+  public void setClinicService(final ClinicService clinicService)
+  {
+    this.clinicService = clinicService;
+  }
+
+
+
+  public void setPets(final List<Pet> pets)
+  {
+    this.pets = pets;
+  }
+
+
+
+  public void setPetTypes(final ICatalog petTypes)
+  {
+    this.petTypes = petTypes;
+  }
+
+
+
+  public void setSelectedPet(final Pet selectedPet)
+  {
+    this.selectedPet = selectedPet;
+  }
 
 }

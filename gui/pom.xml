@@ -19,7 +19,7 @@
   <parent>
     <groupId>com.cloudyle.paasplus.samples</groupId>
     <artifactId>com.cloudyle.paasplus.samples.petclinic</artifactId>
-    <version>0.9.0</version>
+    <version>2.0.0</version>
     <relativePath>../</relativePath>
   </parent>
 
@@ -46,9 +46,9 @@
 	      	<version>1.7.0</version>
 	    </dependency>
       <dependency>
-        <groupId>com.cloudyle.paasplus</groupId>
-        <artifactId>com.cloudyle.paasplus.ui.framework</artifactId>
-		<version>0.9.0</version>
+        <groupId>com.cloudyle.paasplus.platform.ui</groupId>
+        <artifactId>framework</artifactId>
+		<version>2.0.0</version>
       </dependency>
 	
 	 <dependency>
@@ -96,8 +96,10 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
                        <DynamicImport-Package>*</DynamicImport-Package>
-                        <Require-Bundle>com.cloudyle.paasplus.ui.framework,com.cloudyle.paasplus.ui.themes,com.vaadin.server</Require-Bundle>
-                        <!--  <Require-Bundle>com.cloudyle.paasplus.ui.framework,com.cloudyle.paasplus.ui.themes,com.vaadin.themes,com.vaadin.server,com.vaadin.client-compiled</Require-Bundle>-->
+                        <Require-Bundle>com.cloudyle.paasplus.platform.ui.themes,com.vaadin.server</Require-Bundle>
+                         <Include-Resource>
+                            language=src/main/resources/language,
+                        </Include-Resource>
                         <Import-Package>
                         org.slf4j;provider=paxlogging,
                         javax.servlet,

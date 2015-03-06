@@ -9,13 +9,16 @@
  */
 package com.cloudyle.paasplus.petclinic.ui;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import com.cloudyle.paasplus.ui.framework.BasicFrameworkServletService;
 import com.cloudyle.paasplus.ui.framework.BasicFrameworkSession;
 
 
 /**
- *
- *
+ * 
+ * 
  * @author sl
  * @since
  */
@@ -47,9 +50,37 @@ public class PaasplusPetClinicSession extends BasicFrameworkSession
 
 
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.cloudyle.paasplus.ui.framework.BasicFrameworkSession#loadBundle(java.lang.String, java.util.Locale)
+   */
   @Override
-  public void terminateSession()
+  public ResourceBundle loadBundle(final String bundleName, final Locale locale)
   {
-    setAttribute(USER_OBJECT, null);
+    return ResourceBundle.getBundle(bundleName, getLocale());
   }
+
+
+
+  // @Override
+  // public void terminateSession()
+  // {
+  // setAttribute(USER_OBJECT, null);
+  // }
+
+  @Override
+  public String getDefaultBundleName()
+  {
+    return "language.PetClinicBundle";
+  }
+
+
+
+  @Override
+  public Locale getLocale()
+  {
+    return Locale.ENGLISH;
+  }
+
 }

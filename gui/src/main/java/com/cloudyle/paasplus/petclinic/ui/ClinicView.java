@@ -41,250 +41,328 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.Table.ColumnHeaderMode;
 import com.vaadin.ui.Table.TableDragMode;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
+import com.vaadin.ui.themes.ValoTheme;
 
-public class ClinicView extends VerticalLayout implements View {
 
-	private static final long serialVersionUID = 1L;
+public class ClinicView extends VerticalLayout implements View
+{
 
-	Table t;
 
-	Object editableId = null;
+  private static final long serialVersionUID = 1L;
 
-	PetsContainer data;
+  Table t;
 
-	List<Pet> pets;
+  Object editableId = null;
 
-	void createNewReportFromSelection() {
-		((PetClinicUI) getUI()).openReports(this.t);
-	}
+  PetsContainer data;
 
-	@Override
-	public void enter(final ViewChangeEvent event) {
+  List<Pet> pets;
 
-		((PetClinicUI) getUI()).getModel().reload();
 
-		this.pets = ((PetClinicUI) getUI()).getModel().getPets();
 
-		this.data = ((PetClinicUI) getUI()).getModel().getPetTable();
+  void createNewReportFromSelection()
+  {
+    ((PetClinicUI) getUI()).openReports(this.t);
+  }
 
-		setSizeFull();
-		addStyleName("transactions");
 
-		this.t = new Table() {
 
-			@Override
-			protected String formatPropertyValue(final Object rowId,
-					final Object colId, final Property<?> property) {
-				if (colId.equals("Date of Birth")) {
-					final SimpleDateFormat df = new SimpleDateFormat();
-					df.applyPattern("MM/dd/yyyy");
-					return df.format(((Date) property.getValue()).getTime());
-				}
-				return super.formatPropertyValue(rowId, colId, property);
-			}
-		};
-		this.t.setSizeFull();
-		this.t.addStyleName("borderless");
-		this.t.setSelectable(true);
-		this.t.setColumnCollapsingAllowed(true);
-		this.t.setColumnReorderingAllowed(true);
-		this.data.removeAllContainerFilters();
-		this.t.setContainerDataSource(this.data);
-		sortTable();
+  @Override
+  public void enter(final ViewChangeEvent event)
+  {
 
-		this.t.setVisibleColumns(new Object[] { "Name", "TypeCode",
-				"Date of Birth", "Owner Name", "Owner Address", "Illness" });
+    ((PetClinicUI) getUI()).getModel().reload();
 
-		this.t.setFooterVisible(true);
+    this.pets = ((PetClinicUI) getUI()).getModel().getPets();
 
-		// Allow dragging items to the reports menu
-		this.t.setDragMode(TableDragMode.ROW);
-		this.t.setMultiSelect(true);
+    this.data = ((PetClinicUI) getUI()).getModel().getPetTable();
 
-		this.t.addItemClickListener(new ItemClickListener() {
+    setSizeFull();
+    addStyleName("transactions");
 
-			@Override
-			public void itemClick(final ItemClickEvent event) {
-				if (event.getButton() == MouseButton.LEFT
-						&& event.isDoubleClick()) {
-					final Item item = event.getItem();
-					if (item != null) {
-						// TODO: Selection
-						// final Pet pat = ClinicView.this.pets.get((int) item
-						// .getItemProperty("Id").getValue());
-						// ((PetClinicUI) UI.getCurrent()).openPatient(pat);
+    this.t = new Table()
+    {
 
-					}
-				}
 
-			}
-		});
+      @Override
+      protected String formatPropertyValue(final Object rowId, final Object colId, final Property<?> property)
+      {
+        if (colId.equals("Date of Birth"))
+        {
+          final SimpleDateFormat df = new SimpleDateFormat();
+          df.applyPattern("MM/dd/yyyy");
+          return df.format(((Date) property.getValue()).getTime());
+        }
+        return super.formatPropertyValue(rowId, colId, property);
+      }
+    };
+    this.t.setSizeFull();
+    this.t.addStyleName("borderless");
+    this.t.setSelectable(true);
+    this.t.setColumnCollapsingAllowed(true);
+    this.t.setColumnReorderingAllowed(true);
+    this.data.removeAllContainerFilters();
+    this.t.setContainerDataSource(this.data);
+    sortTable();
 
-		final HorizontalLayout toolbar = new HorizontalLayout();
-		toolbar.setWidth("100%");
-		toolbar.setSpacing(true);
-		toolbar.setMargin(true);
-		toolbar.addStyleName("toolbar");
-		addComponent(toolbar);
+    this.t.setVisibleColumns(new Object[] { "Name", "TypeCode", "Date of Birth", "Owner Name", "Owner Address",
+        "Illness" });
 
-		final Label title = new Label("Waiting Room");
-		title.addStyleName("h1");
-		title.setSizeUndefined();
-		toolbar.addComponent(title);
-		toolbar.setComponentAlignment(title, Alignment.MIDDLE_LEFT);
+    this.t.setFooterVisible(true);
 
-		final TextField filter = new TextField();
-		filter.addTextChangeListener(new TextChangeListener() {
+    // Allow dragging items to the reports menu
+    this.t.setDragMode(TableDragMode.ROW);
+    this.t.setMultiSelect(true);
 
-			@Override
-			public void textChange(final TextChangeEvent event) {
-				ClinicView.this.data.removeAllContainerFilters();
-				ClinicView.this.data.addContainerFilter(new Filter() {
+    this.t.addItemClickListener(new ItemClickListener()
+    {
 
-					@Override
-					public boolean appliesToProperty(final Object propertyId) {
-						if (propertyId.equals("Name")
-								|| propertyId.equals("Owner Name")) {
-							return true;
-						}
-						return false;
-					}
 
-					@Override
-					public boolean passesFilter(final Object itemId,
-							final Item item)
-							throws UnsupportedOperationException {
+      @Override
+      public void itemClick(final ItemClickEvent event)
+      {
+        if (event.getButton() == MouseButton.LEFT && event.isDoubleClick())
+        {
+          final Item item = event.getItem();
+          if (item != null)
+          {
+            // TODO: Selection
+            // final Pet pat = ClinicView.this.pets.get((int) item
+            // .getItemProperty("Id").getValue());
+            // ((PetClinicUI) UI.getCurrent()).openPatient(pat);
 
-						if (event.getText() == null
-								|| event.getText().equals("")) {
-							return true;
-						}
+          }
+        }
 
-						return filterByProperty("Name", item, event.getText())
-								|| filterByProperty("Vorname", item,
-										event.getText());
+      }
+    });
 
-					}
-				});
-			}
-		});
+    final HorizontalLayout toolbar = new HorizontalLayout();
+    toolbar.setWidth("100%");
+    toolbar.setSpacing(true);
+    toolbar.setMargin(true);
+    toolbar.addStyleName("toolbar");
+    addComponent(toolbar);
 
-		filter.setInputPrompt("Filter");
-		filter.addShortcutListener(new ShortcutListener("Clear",
-				KeyCode.ESCAPE, null) {
+    final Label title = new Label("Waiting Room");
+    title.addStyleName(ValoTheme.LABEL_H2);
+    title.setSizeUndefined();
+    toolbar.addComponent(title);
+    toolbar.setComponentAlignment(title, Alignment.MIDDLE_LEFT);
 
-			@Override
-			public void handleAction(final Object sender, final Object target) {
-				filter.setValue("");
-				ClinicView.this.data.removeAllContainerFilters();
-			}
-		});
-		toolbar.addComponent(filter);
-		toolbar.setExpandRatio(filter, 1);
-		toolbar.setComponentAlignment(filter, Alignment.MIDDLE_LEFT);
+    final TextField filter = new TextField();
+    filter.addTextChangeListener(new TextChangeListener()
+    {
 
-		final Button newReport = new Button("Create Report");
-		newReport.addClickListener(new ClickListener() {
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				createNewReportFromSelection();
-			}
-		});
-		newReport.setEnabled(false);
-		newReport.addStyleName("small");
-		toolbar.addComponent(newReport);
-		toolbar.setComponentAlignment(newReport, Alignment.MIDDLE_LEFT);
+      @Override
+      public void textChange(final TextChangeEvent event)
+      {
+        ClinicView.this.data.removeAllContainerFilters();
+        ClinicView.this.data.addContainerFilter(new Filter()
+        {
 
-		addComponent(this.t);
-		setExpandRatio(this.t, 10);
 
-		this.t.addActionHandler(new Handler() {
+          @Override
+          public boolean appliesToProperty(final Object propertyId)
+          {
+            if (propertyId.equals("Name") || propertyId.equals("Owner Name"))
+            {
+              return true;
+            }
+            return false;
+          }
 
-			private final Action report = new Action("Create Report");
 
-			private final Action discard = new Action("Transfer");
 
-			private final Action details = new Action("Details");
+          @Override
+          public boolean passesFilter(final Object itemId, final Item item) throws UnsupportedOperationException
+          {
 
-			@Override
-			public Action[] getActions(final Object target, final Object sender) {
-				return new Action[] { this.details, this.report, this.discard };
-			}
+            if (event.getText() == null || event.getText().equals(""))
+            {
+              return true;
+            }
 
-			@Override
-			public void handleAction(final Action action, final Object sender,
-					final Object target) {
-				if (action == this.report) {
-					createNewReportFromSelection();
-				} else if (action == this.discard) {
-					Notification.show("Not implemented in this demo");
-				} else if (action == this.details) {
-					final Item item = ((Table) sender).getItem(target);
-					if (item != null) {
-						final Pet pat = ClinicView.this.pets.get((int) item
-								.getItemProperty("Bett").getValue());
-						((PetClinicUI) UI.getCurrent()).openPatient(pat);
+            return filterByProperty("Name", item, event.getText())
+                || filterByProperty("Vorname", item, event.getText());
 
-					}
-				}
-			}
-		});
+          }
+        });
+      }
+    });
 
-		this.t.addValueChangeListener(new ValueChangeListener() {
+    filter.setInputPrompt("Filter");
+    filter.addShortcutListener(new ShortcutListener("Clear", KeyCode.ESCAPE, null)
+    {
 
-			@Override
-			public void valueChange(final ValueChangeEvent event) {
-				final Object val2 = ClinicView.this.t.getValue();
-				if (ClinicView.this.t.getValue() instanceof Set) {
-					final Set<Object> val = (Set<Object>) ClinicView.this.t
-							.getValue();
-					newReport.setEnabled(val.size() > 0);
 
-					for (final Object id : val) {
-						final Item item = ClinicView.this.t.getItem(id);
-						// TODO: Selection Handling
-						// if (item != null) {
-						// final Pet pat = ClinicView.this.pets.get((int) item
-						// .getItemProperty("Name").getValue());
-						// ((PetClinicUI) UI.getCurrent()).getModel()
-						// .setSelectedPet(pat);
-						// }
-					}
-				} else {
-				}
-			}
-		});
-		this.t.setImmediate(true);
+      @Override
+      public void handleAction(final Object sender, final Object target)
+      {
+        filter.setValue("");
+        ClinicView.this.data.removeAllContainerFilters();
+      }
+    });
+    toolbar.addComponent(filter);
+    toolbar.setExpandRatio(filter, 1);
+    toolbar.setComponentAlignment(filter, Alignment.MIDDLE_LEFT);
 
-	}
+    final Button newReport = new Button("Create Report");
+    newReport.addClickListener(new ClickListener()
+    {
 
-	private boolean filterByProperty(final String prop, final Item item,
-			final String text) {
-		if (item == null || item.getItemProperty(prop) == null
-				|| item.getItemProperty(prop).getValue() == null) {
-			return false;
-		}
-		final String val = item.getItemProperty(prop).getValue().toString()
-				.trim().toLowerCase();
-		if (val.startsWith(text.toLowerCase().trim())) {
-			return true;
-		}
-		// String[] parts = text.split(" ");
-		// for (String part : parts) {
-		// if (val.contains(part.toLowerCase()))
-		// return true;
-		//
-		// }
-		return false;
-	}
 
-	private void sortTable() {
-		this.t.sort(new Object[] { "Name" }, new boolean[] { true });
-	}
+      @Override
+      public void buttonClick(final ClickEvent event)
+      {
+        createNewReportFromSelection();
+      }
+    });
+    newReport.setEnabled(false);
+    newReport.addStyleName("small");
+    toolbar.addComponent(newReport);
+    toolbar.setComponentAlignment(newReport, Alignment.MIDDLE_LEFT);
+
+    addComponent(this.t);
+    setExpandRatio(this.t, 10);
+
+    this.t.addActionHandler(new Handler()
+    {
+
+
+      private final Action report = new Action("Create Report");
+
+      private final Action discard = new Action("Transfer");
+
+      private final Action details = new Action("Details");
+
+
+
+      @Override
+      public Action[] getActions(final Object target, final Object sender)
+      {
+        return new Action[] { this.details, this.report, this.discard };
+      }
+
+
+
+      @Override
+      public void handleAction(final Action action, final Object sender, final Object target)
+      {
+        if (action == this.report)
+        {
+          createNewReportFromSelection();
+        }
+        else if (action == this.discard)
+        {
+          Notification.show("Not implemented in this demo");
+        }
+        else if (action == this.details)
+        {
+          final Item item = ((Table) sender).getItem(target);
+          if (item != null)
+          {
+            final Pet pet = (Pet) item.getItemProperty("pet").getValue();
+            ((PetClinicUI) UI.getCurrent()).openPet(pet);
+            final Window window = new Window("Details");
+            final Table table = new Table();
+            int rowNumber = 0;
+            table.setPageLength(0);
+            table.setWidth(50, Unit.PERCENTAGE);
+            table.addStyleName("userViewTable");
+            table.setColumnHeaderMode(ColumnHeaderMode.HIDDEN);
+            table.addContainerProperty("col1", String.class, "not set");
+            table.addContainerProperty("col2", String.class, "not set");
+            final Object obj[] = { "Name", pet.getName() };
+            table.addItem(obj, ++rowNumber);
+            if (pet.getBirthDate() != null)
+            {
+              final SimpleDateFormat df = new SimpleDateFormat();
+              df.applyPattern("MM/dd/yyyy");
+              final Object birthDate[] = { "BirthDate", df.format(pet.getBirthDate()) };
+              table.addItem(birthDate, ++rowNumber);
+            }
+            window.setContent(table);
+            window.center();
+            window.setWidth("400px");
+            window.setHeight("250px");
+            window.setResizable(false);
+            window.setClosable(true);
+            window.setModal(true);
+            UI.getCurrent().addWindow(window);
+          }
+        }
+      }
+    });
+
+    this.t.addValueChangeListener(new ValueChangeListener()
+    {
+
+
+      @Override
+      public void valueChange(final ValueChangeEvent event)
+      {
+        final Object val2 = ClinicView.this.t.getValue();
+        if (ClinicView.this.t.getValue() instanceof Set)
+        {
+          final Set<Object> val = (Set<Object>) ClinicView.this.t.getValue();
+          newReport.setEnabled(val.size() > 0);
+
+          for (final Object id : val)
+          {
+            final Item item = ClinicView.this.t.getItem(id);
+            // TODO: Selection Handling
+            // if (item != null) {
+            // final Pet pat = ClinicView.this.pets.get((int) item
+            // .getItemProperty("Name").getValue());
+            // ((PetClinicUI) UI.getCurrent()).getModel()
+            // .setSelectedPet(pat);
+            // }
+          }
+        }
+        else
+        {
+        }
+      }
+    });
+    this.t.setImmediate(true);
+
+  }
+
+
+
+  private boolean filterByProperty(final String prop, final Item item, final String text)
+  {
+    if (item == null || item.getItemProperty(prop) == null || item.getItemProperty(prop).getValue() == null)
+    {
+      return false;
+    }
+    final String val = item.getItemProperty(prop).getValue().toString().trim().toLowerCase();
+    if (val.startsWith(text.toLowerCase().trim()))
+    {
+      return true;
+    }
+    // String[] parts = text.split(" ");
+    // for (String part : parts) {
+    // if (val.contains(part.toLowerCase()))
+    // return true;
+    //
+    // }
+    return false;
+  }
+
+
+
+  private void sortTable()
+  {
+    this.t.sort(new Object[] { "Name" }, new boolean[] { true });
+  }
 
 }
