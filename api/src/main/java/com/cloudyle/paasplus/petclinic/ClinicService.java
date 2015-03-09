@@ -22,6 +22,7 @@ import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Owner;
 import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Pet;
 import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Vet;
 import com.cloudyle.paasplus.services.catalog.data.ICatalog;
+import com.cloudyle.paasplus.services.catalog.data.ICode;
 import com.cloudyle.paasplus.services.catalog.exceptions.CatalogServiceException;
 import com.cloudyle.paasplus.services.persistence.exceptions.PersistenceException;
 
@@ -78,5 +79,9 @@ public interface ClinicService
 
 
   void savePet(Pet pet) throws PersistenceException;
+
+
+
+  ICode getPetTypeFromCode(final String typeCode);
 
 }

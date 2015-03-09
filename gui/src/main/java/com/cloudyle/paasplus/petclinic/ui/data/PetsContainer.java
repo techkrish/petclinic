@@ -14,8 +14,10 @@ import java.util.Date;
 import java.util.List;
 
 import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Pet;
+import com.cloudyle.paasplus.petclinic.ui.PetClinicUI;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.ui.UI;
 
 
 public class PetsContainer extends IndexedContainer
@@ -54,6 +56,10 @@ public class PetsContainer extends IndexedContainer
       item.getItemProperty("Owner Name").setValue(pet.getOwner().getLastName() + " " + pet.getOwner().getFirstName());
       item.getItemProperty("Owner Address").setValue(pet.getOwner().getAddress());
       final String typeCode = pet.getType();
+      if (((PetClinicUI) UI.getCurrent()).getClinicService().getPetTypeFromCode(typeCode) != null)
+      {
+        ((PetClinicUI) UI.getCurrent()).getClinicService().getPetTypeFromCode(typeCode).getText();
+      }
       item.getItemProperty("TypeCode").setValue(typeCode);
 
       item.getItemProperty("Illness").setValue(pet.getVisits().get(0).getDescription());

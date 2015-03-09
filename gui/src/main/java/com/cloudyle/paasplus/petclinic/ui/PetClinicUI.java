@@ -96,7 +96,6 @@ public class PetClinicUI extends ValoFrameworkUI
     {
       log.error("Clinic Service not found! ", e);
     }
-    setDefaultView("overview");
 
   }
 
@@ -220,11 +219,10 @@ public class PetClinicUI extends ValoFrameworkUI
   {
     if (this.modules == null)
     {
-
       this.modules = new ArrayList<>();
       this.clinicModule = new ClinicModule();
       this.modules.add(this.clinicModule);
-
+      setDefaultView("overview");
     }
     return this.modules;
   }

@@ -1,5 +1,6 @@
 package com.cloudyle.paasplus.petclinic.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Visit;
 import com.cloudyle.paasplus.services.catalog.ICatalogService;
 import com.cloudyle.paasplus.services.catalog.data.CustomCode;
 import com.cloudyle.paasplus.services.catalog.data.ICatalog;
+import com.cloudyle.paasplus.services.catalog.data.ICatalogCategory;
 import com.cloudyle.paasplus.services.catalog.exceptions.CatalogNotEditableException;
 import com.cloudyle.paasplus.services.catalog.exceptions.CatalogServiceException;
 import com.cloudyle.paasplus.services.persistence.IPersistenceService;
@@ -31,6 +33,12 @@ public class SampleData
   private IPersistenceService persistenceService;
 
   private boolean createSampleData = true;
+
+  private static final String TEST_CUSTOM_CATEGORY_NAME = "TEST_CUSTOM_CATEGORY_NAME";
+
+  private static final String TEST_CAT_VERSION_2012 = "2012";
+
+  private static final String TEST_CUSTOM_CATEGORY_DESCR = "custom category description";
 
 
 
@@ -125,7 +133,7 @@ public class SampleData
       {
         this.catalogService.removeCatalog(catalog);
       }
-      catalog = this.catalogService.createCatalog(CustomCode.class, "PetTypes", "1", false);
+      catalog = this.catalogService.createCatalog(CustomCode.class, "PetTypes", "1", true);
       catalog = this.catalogService.saveCatalog(catalog);
       CustomCode code = new CustomCode("100", "Dog");
       this.catalogService.addToCustomCatalog(code, catalog);
@@ -176,15 +184,22 @@ public class SampleData
         this.catalogService.removeCatalog(catalog);
       }
 
-      catalog = this.catalogService.createCatalog(CustomCode.class, "Specialities", "1", false);
+      catalog = this.catalogService.createCatalog(CustomCode.class, "Specialities", "1", true);
       catalog = this.catalogService.saveCatalog(catalog);
-      CustomCode code = new CustomCode("100", "radiology");
-      this.catalogService.addToCustomCatalog(code, catalog);
-      code = new CustomCode("200", "surgery");
-      this.catalogService.addToCustomCatalog(code, catalog);
-      code = new CustomCode("300", "dentistry");
-      this.catalogService.addToCustomCatalog(code, catalog);
+      final List<CustomCode> codes = new ArrayList<>();
+      final CustomCode code = new CustomCode("400", "radiology");
+      codes.add(code);
+      final CustomCode code2 = new CustomCode("500", "surgery");
+      codes.add(code2);
+      final CustomCode code3 = new CustomCode("600", "dentistry");
+      codes.add(code3);
+      final ICatalogCategory<CustomCode> category = this.catalogService.createCatalogCategory(catalog,
+          TEST_CUSTOM_CATEGORY_NAME, TEST_CUSTOM_CATEGORY_DESCR, codes);
+      this.catalogService.saveCatalogCategory(category);
       this.catalogService.saveCatalog(catalog);
+      this.catalogService.addToCustomCatalog(code, catalog);
+      this.catalogService.addToCustomCatalog(code2, catalog);
+      this.catalogService.addToCustomCatalog(code3, catalog);
     }
     catch (final CatalogNotEditableException e)
     {

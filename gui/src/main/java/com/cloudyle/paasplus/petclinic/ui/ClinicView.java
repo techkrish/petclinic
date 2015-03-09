@@ -118,7 +118,7 @@ public class ClinicView extends VerticalLayout implements View
 
     // Allow dragging items to the reports menu
     this.t.setDragMode(TableDragMode.ROW);
-    this.t.setMultiSelect(true);
+    // this.t.setMultiSelect(true);
 
     this.t.addItemClickListener(new ItemClickListener()
     {
@@ -258,7 +258,7 @@ public class ClinicView extends VerticalLayout implements View
       {
         if (action == this.report)
         {
-          createNewReportFromSelection();
+          Notification.show("Not implemented in this demo");
         }
         else if (action == this.discard)
         {
@@ -275,8 +275,8 @@ public class ClinicView extends VerticalLayout implements View
             final Table table = new Table();
             int rowNumber = 0;
             table.setPageLength(0);
-            table.setWidth(50, Unit.PERCENTAGE);
-            table.addStyleName("userViewTable");
+            table.setWidth(100, Unit.PERCENTAGE);
+            // table.addStyleName("userViewTable");
             table.setColumnHeaderMode(ColumnHeaderMode.HIDDEN);
             table.addContainerProperty("col1", String.class, "not set");
             table.addContainerProperty("col2", String.class, "not set");

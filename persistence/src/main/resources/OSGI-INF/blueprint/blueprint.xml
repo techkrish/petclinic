@@ -10,7 +10,6 @@
 		class="com.cloudyle.paasplus.services.persistence.impl.ApplicationManagedPersistenceUnit" init-method="init">
 		<jpa:unit property="entityManagerFactory" unitname="persistence-petclinic-nosql" />
 		<property name="persistenceUnitName" value="persistence-petclinic-nosql" />	
-
 	</bean>
 
 	<!-- Paasplus Persistence Service -->
@@ -19,10 +18,6 @@
 	   <property name="persistenceUnit" ref="persistenceUnit" />
 		<tx:transaction method="*" value="Required" />
 	</bean>
-
-
-
- 
 
 	<!-- Service definition -->
 	<!-- Publish the persistenceService as a Service -->

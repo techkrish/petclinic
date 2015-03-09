@@ -123,13 +123,11 @@ public class ClinicServiceImpl implements ClinicService
     }
     catch (final CatalogServiceException e)
     {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      logger.error("[getPetTypeFromCode] cannot get the catalog service", e);
     }
     catch (final DuplicateCodesException e)
     {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      logger.error("[getPetTypeFromCode] duplicate code", e);
     }
     return null;
   }
