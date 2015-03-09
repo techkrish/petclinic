@@ -65,15 +65,18 @@ public class LoginView extends LoginForm implements View
       logger.error("[checkLoginAndStoreUser] Unable to authenticate user " + userName, ex);
       return false;
     }
-
-    final Collection<Vet> user = ((PetClinicUI) UI.getCurrent()).getClinicService().findVetByLastName(userName);
-    if (user.size() == 0)
+    if (userName != null)
     {
-      logger.debug("[checkLoginAndStoreUser] Unable to find user " + userName);
-      return false;
+      final Collection<Vet> user = ((PetClinicUI) UI.getCurrent()).getClinicService().findVetByLastName(userName);
+      if (user.size() == 0)
+      {
+        logger.debug("[checkLoginAndStoreUser] Unable to find user " + userName);
+        return false;
+      }
+      VaadinSession.getCurrent().setAttribute("USER", user.iterator().next());
+      return true;
     }
-    VaadinSession.getCurrent().setAttribute("USER", user.iterator().next());
-    return true;
+    return false;
   }
 
 
@@ -151,7 +154,7 @@ public class LoginView extends LoginForm implements View
     }
     else
     {
-      Notification.show(I18n.getString(LoginView.class, "LoginView.credentialFailure"));
+      Notification.show(I18n.getString(LoginView.class, "credentialFailure"));
     }
   }
 }

@@ -111,7 +111,7 @@ public class ClinicView extends VerticalLayout implements View
     this.t.setContainerDataSource(this.data);
     sortTable();
 
-    this.t.setVisibleColumns(new Object[] { "Name", "TypeCode", "Date of Birth", "Owner Name", "Owner Address",
+    this.t.setVisibleColumns(new Object[] { "Name", "Species of Pet", "Date of Birth", "Owner Name", "Owner Address",
         "Illness" });
 
     this.t.setFooterVisible(true);

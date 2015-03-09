@@ -12,6 +12,7 @@ import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Pet;
 import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Vet;
 import com.cloudyle.paasplus.petclinic.persistence.entities.nosql.Visit;
 import com.cloudyle.paasplus.services.catalog.ICatalogService;
+import com.cloudyle.paasplus.services.catalog.data.CustomCatalogPropertyDto;
 import com.cloudyle.paasplus.services.catalog.data.CustomCode;
 import com.cloudyle.paasplus.services.catalog.data.ICatalog;
 import com.cloudyle.paasplus.services.catalog.data.ICatalogCategory;
@@ -26,6 +27,14 @@ public class SampleData
 {
 
 
+  private static final String SPECIALITY_TEXT = "Speciality";
+
+  private static final String SPEC_CODE = "SpecCode";
+
+  private static final String PETTYPE_TEXT = "Type";
+
+  public static final String TYPE_CODE = "TypeCode";
+
   private static Logger logger = LoggerFactory.getLogger(ClinicServiceImpl.class);
 
   private ICatalogService catalogService;
@@ -34,11 +43,13 @@ public class SampleData
 
   private boolean createSampleData = true;
 
-  private static final String TEST_CUSTOM_CATEGORY_NAME = "TEST_CUSTOM_CATEGORY_NAME";
+  private static final String PETTYPES_CATEGORY_NAME = "Pet Types";
 
-  private static final String TEST_CAT_VERSION_2012 = "2012";
+  private static final String PETTYPES_CATEGORY_DESCR = "All Pet types of Pet Type Catalog";
 
-  private static final String TEST_CUSTOM_CATEGORY_DESCR = "custom category description";
+  private static final String SPECIALITY_CATEGORY_NAME = "Specialities";
+
+  private static final String SPECIALITY_CATEGORY_DESCR = "All Specialities types of Specialities Catalog";
 
 
 
@@ -135,13 +146,29 @@ public class SampleData
       }
       catalog = this.catalogService.createCatalog(CustomCode.class, "PetTypes", "1", true);
       catalog = this.catalogService.saveCatalog(catalog);
-      CustomCode code = new CustomCode("100", "Dog");
-      this.catalogService.addToCustomCatalog(code, catalog);
-      code = new CustomCode("200", "Cat");
-      this.catalogService.addToCustomCatalog(code, catalog);
-      code = new CustomCode("300", "Hamster");
-      this.catalogService.addToCustomCatalog(code, catalog);
-      this.catalogService.saveCatalog(catalog);
+      final ArrayList<CustomCode> codes = new ArrayList<CustomCode>();
+
+      CustomCode code = new CustomCode();
+      code.setProperties(new ArrayList<CustomCatalogPropertyDto>());
+      code.getProperties().add(new CustomCatalogPropertyDto(TYPE_CODE, "100"));
+      code.getProperties().add(new CustomCatalogPropertyDto(PETTYPE_TEXT, "Dog"));
+      codes.add(code);
+
+      code = new CustomCode();
+      code.setProperties(new ArrayList<CustomCatalogPropertyDto>());
+      code.getProperties().add(new CustomCatalogPropertyDto(TYPE_CODE, "200"));
+      code.getProperties().add(new CustomCatalogPropertyDto(PETTYPE_TEXT, "Cat"));
+      codes.add(code);
+
+      code = new CustomCode();
+      code.setProperties(new ArrayList<CustomCatalogPropertyDto>());
+      code.getProperties().add(new CustomCatalogPropertyDto(TYPE_CODE, "300"));
+      code.getProperties().add(new CustomCatalogPropertyDto(PETTYPE_TEXT, "Hamster"));
+      codes.add(code);
+
+      final ICatalogCategory<CustomCode> category = this.catalogService.createCatalogCategory(catalog,
+          PETTYPES_CATEGORY_NAME, PETTYPES_CATEGORY_DESCR, codes);
+      this.catalogService.saveCatalogCategory(category);
     }
     catch (final CatalogNotEditableException e)
     {
@@ -183,23 +210,29 @@ public class SampleData
       {
         this.catalogService.removeCatalog(catalog);
       }
-
       catalog = this.catalogService.createCatalog(CustomCode.class, "Specialities", "1", true);
       catalog = this.catalogService.saveCatalog(catalog);
       final List<CustomCode> codes = new ArrayList<>();
-      final CustomCode code = new CustomCode("400", "radiology");
+      final CustomCode code = new CustomCode();
+      code.setProperties(new ArrayList<CustomCatalogPropertyDto>());
+      code.getProperties().add(new CustomCatalogPropertyDto(SPEC_CODE, "400"));
+      code.getProperties().add(new CustomCatalogPropertyDto(SPECIALITY_TEXT, "radiology"));
       codes.add(code);
-      final CustomCode code2 = new CustomCode("500", "surgery");
+
+      final CustomCode code2 = new CustomCode();
+      code.setProperties(new ArrayList<CustomCatalogPropertyDto>());
+      code.getProperties().add(new CustomCatalogPropertyDto(SPEC_CODE, "500"));
+      code.getProperties().add(new CustomCatalogPropertyDto(SPECIALITY_TEXT, "surgery"));
       codes.add(code2);
-      final CustomCode code3 = new CustomCode("600", "dentistry");
+
+      final CustomCode code3 = new CustomCode();
+      code.setProperties(new ArrayList<CustomCatalogPropertyDto>());
+      code.getProperties().add(new CustomCatalogPropertyDto(SPEC_CODE, "600"));
+      code.getProperties().add(new CustomCatalogPropertyDto(SPECIALITY_TEXT, "dentitstry"));
       codes.add(code3);
       final ICatalogCategory<CustomCode> category = this.catalogService.createCatalogCategory(catalog,
-          TEST_CUSTOM_CATEGORY_NAME, TEST_CUSTOM_CATEGORY_DESCR, codes);
+          SPECIALITY_CATEGORY_NAME, SPECIALITY_CATEGORY_DESCR, codes);
       this.catalogService.saveCatalogCategory(category);
-      this.catalogService.saveCatalog(catalog);
-      this.catalogService.addToCustomCatalog(code, catalog);
-      this.catalogService.addToCustomCatalog(code2, catalog);
-      this.catalogService.addToCustomCatalog(code3, catalog);
     }
     catch (final CatalogNotEditableException e)
     {
@@ -217,7 +250,6 @@ public class SampleData
   {
     try
     {
-
       final IJQLQuery<Vet> query = this.persistenceService.createNamedJQLQuery("Vet.getByName", Vet.class);
       query.addNamedParameter("name", lastName);
 
@@ -287,5 +319,4 @@ public class SampleData
   {
     this.persistenceService = persistenceService;
   }
-
 }

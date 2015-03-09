@@ -14,7 +14,6 @@ import com.cloudyle.paasplus.services.catalog.ICatalogService;
 import com.cloudyle.paasplus.services.catalog.data.ICatalog;
 import com.cloudyle.paasplus.services.catalog.data.ICode;
 import com.cloudyle.paasplus.services.catalog.exceptions.CatalogServiceException;
-import com.cloudyle.paasplus.services.catalog.exceptions.DuplicateCodesException;
 import com.cloudyle.paasplus.services.persistence.IPersistenceService;
 import com.cloudyle.paasplus.services.persistence.data.IJQLQuery;
 import com.cloudyle.paasplus.services.persistence.exceptions.PersistenceException;
@@ -115,20 +114,26 @@ public class ClinicServiceImpl implements ClinicService
 
 
 
+  @Override
   public ICode getPetTypeFromCode(final String typeCode)
   {
     try
     {
-      return this.catalogService.getCodeByName(typeCode, "PetTypes", "1");
+      final List<ICode> codes = this.catalogService.getCustomCodesByNameAndValue(SampleData.TYPE_CODE, typeCode,
+          "PetTypes", "1");// getCodeByName(typeCode,
+      // "PetTypes",
+      // "1");
+      if (codes.size() > 0)
+      {
+        return codes.get(0);
+      }
+
     }
     catch (final CatalogServiceException e)
     {
       logger.error("[getPetTypeFromCode] cannot get the catalog service", e);
     }
-    catch (final DuplicateCodesException e)
-    {
-      logger.error("[getPetTypeFromCode] duplicate code", e);
-    }
+
     return null;
   }
 
