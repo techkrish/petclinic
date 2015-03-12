@@ -17,15 +17,15 @@
 
 
   <parent>
-    <groupId>com.cloudyle.paasplus.samples</groupId>
-    <artifactId>com.cloudyle.paasplus.samples.petclinic</artifactId>
+    <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
+    <artifactId>petclinic</artifactId>
     <version>2.0.0</version>
     <relativePath>../</relativePath>
   </parent>
 
 
-  <groupId>com.cloudyle.paasplus.samples</groupId>
-  <artifactId>com.cloudyle.paasplus.samples.petclinic.provider</artifactId>
+  <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
+  <artifactId>petclinic-provider</artifactId>
   <packaging>bundle</packaging>
   <name>${paasplus.bundle.name.prefix.samples} - Service Provider</name>
 
@@ -39,16 +39,16 @@
 
   <dependencies>
      <dependency>
-    	<groupId>com.cloudyle.paasplus.samples</groupId>
+    	<groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
     	<artifactId>
-    		com.cloudyle.paasplus.samples.petclinic.api
+    		petclinic-api
     	</artifactId>
     	<version>${project.version}</version>
     </dependency>
     <dependency>
-    	<groupId>com.cloudyle.paasplus.samples</groupId>
+    	<groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
     	<artifactId>
-    		com.cloudyle.paasplus.samples.petclinic.persistence
+    		petclinic-persistence
     	</artifactId>
     	<version>${project.version}</version>
     </dependency>
@@ -84,6 +84,12 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
+		   <Import-Package>
+              org.slf4j;provider=paxlogging;resolution:=optional,            
+            	*
+            </Import-Package>
+
+            <Include-Resource>OSGI-INF/blueprint/blueprint.xml=src/main/resources/OSGI-INF/blueprint/blueprint.xml</Include-Resource>
             <!-- if Export-Package not defined: export all packages, except strings "impl"/"internal" in package name  -->
             <!-- if Export-Package is defined but empty, nothing will be exported -->
             <!-- if Export-Package is active: list of package names commata seperated -->

@@ -21,15 +21,13 @@
     <feature name='${project.artifactId}' description='${project.name}' version='${project.version}'>
         <details>${project.description}</details>  
         <!-- depended bundles used by index-api and index-provider -->                    
-		<configfile finalname="/etc/com.cloudyle.paasplus.petclinic.cfg">mvn:com.cloudyle.paasplus.samples/com.cloudyle.paasplus.samples.petclinic.provider/${project.version}/cfg</configfile>          
-        <configfile finalname="/etc/aries.jpa.persistence.petclinic.nosql.cfg">mvn:com.cloudyle.paasplus.samples/com.cloudyle.paasplus.samples.petclinic.persistence/${project.version}/cfg</configfile> 
-        <feature>mongodbcfg</feature>
-        <feature>com.cloudyle.paasplus.karaf.vaadin</feature>
-        <feature>com.cloudyle.paasplus.karaf.shiro</feature>
-        <feature>paasplus-persistence-service</feature>
+		<configfile finalname="/etc/com.cloudyle.paasplus.petclinic.cfg">mvn:com.cloudyle.paasplus.samples.petclinic/petclinic-provider/${project.version}/cfg</configfile>          
+        <configfile finalname="/etc/aries.jpa.persistence.petclinic.nosql.cfg">mvn:com.cloudyle.paasplus.samples.petclinic/petclinic-persistence/${project.version}/cfg</configfile> 
+        <feature>paasplus-persistence-nosql</feature>
         <feature>paasplus-report-service</feature>
         <feature>paasplus-catalog-service</feature>
-        
+		<feature>paasplus-ui-framework</feature>
+       
     	            
     </feature>
  

@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<features xmlns="http://karaf.apache.org/xmlns/features/v1.2.0" name="com.cloudyle.paasplus.samples.petclinic.feature-2.0.0">
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.2.0" name="petclinic-feature-2.0.0">
     <feature>
-        <feature>com.cloudyle.paasplus.karaf.shiro</feature>
-        <feature>com.cloudyle.paasplus.karaf.vaadin</feature>
-        <feature>mongodbcfg</feature>
         <feature>paasplus-catalog-service</feature>
-        <feature>paasplus-persistence-service</feature>
+        <feature>paasplus-persistence-nosql</feature>
         <feature>paasplus-report-service</feature>
-        <bundle>mvn:com.cloudyle.paasplus.platform.ui/framework/2.0.0</bundle>
-        <bundle>mvn:com.cloudyle.paasplus.platform.ui/themes/2.0.0</bundle>
-        <bundle>mvn:com.cloudyle.paasplus.samples/com.cloudyle.paasplus.samples.petclinic.api/2.0.0</bundle>
-        <bundle>mvn:com.cloudyle.paasplus.samples/com.cloudyle.paasplus.samples.petclinic.gui/2.0.0</bundle>
-        <bundle>mvn:com.cloudyle.paasplus.samples/com.cloudyle.paasplus.samples.petclinic.persistence/2.0.0</bundle>
-        <bundle>mvn:com.cloudyle.paasplus.samples/com.cloudyle.paasplus.samples.petclinic.provider/2.0.0</bundle>
+        <feature>paasplus-ui-framework</feature>
+        <bundle>mvn:com.cloudyle.paasplus.samples.petclinic/petclinic-api/2.0.0</bundle>
+        <bundle>mvn:com.cloudyle.paasplus.samples.petclinic/petclinic-gui/2.0.0</bundle>
+        <bundle>mvn:com.cloudyle.paasplus.samples.petclinic/petclinic-persistence/2.0.0</bundle>
+        <bundle>mvn:com.cloudyle.paasplus.samples.petclinic/petclinic-provider/2.0.0</bundle>
     </feature>
 </features>

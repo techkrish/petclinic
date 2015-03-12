@@ -16,54 +16,43 @@
 
 
 <parent>
-    <groupId>com.cloudyle.paasplus.samples</groupId>
-    <artifactId>com.cloudyle.paasplus.samples.petclinic</artifactId>
+    <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
+    <artifactId>petclinic</artifactId>
     <version>2.0.0</version>
     <relativePath>../</relativePath>
   </parent>
 
 
-   <groupId>com.cloudyle.paasplus.samples</groupId>
-  <artifactId>com.cloudyle.paasplus.samples.petclinic.feature</artifactId>
+  <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
+  <artifactId>petclinic-feature</artifactId>
   <name>${paasplus.bundle.name.prefix.samples} - Deployment feature</name>
   <packaging>feature</packaging>
    <description>Pet CLinic Feature. Deployment of API, Provider, GUI and directly depended external bundles and features.</description>
    
-  <properties>
-  <karaf.deploy>${basedir}/../karaf/deploy</karaf.deploy>
-  </properties>
+  
  
 
 
   <dependencies>
    <dependency>
-      <groupId>com.cloudyle.paasplus.samples</groupId>
-      <artifactId>com.cloudyle.paasplus.samples.petclinic.persistence</artifactId>
+      <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
+      <artifactId>petclinic-persistence</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.cloudyle.paasplus.samples</groupId>
-      <artifactId>com.cloudyle.paasplus.samples.petclinic.api</artifactId>
+      <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
+      <artifactId>petclinic-api</artifactId>
       <version>${project.version}</version>
     </dependency>
 	<dependency>
-      <groupId>com.cloudyle.paasplus.samples</groupId>
-      <artifactId>com.cloudyle.paasplus.samples.petclinic.provider</artifactId>
+      <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
+      <artifactId>petclinic-provider</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-        <groupId>com.cloudyle.paasplus.platform.ui</groupId>
-        <artifactId>themes</artifactId>
-		<version>2.0.0</version>
-      </dependency>
-    <dependency>
-        <groupId>com.cloudyle.paasplus.platform.ui</groupId>
-        <artifactId>framework</artifactId>
-		<version>2.0.0</version>
-      </dependency>
+
 	<dependency>
-      <groupId>com.cloudyle.paasplus.samples</groupId>
-      <artifactId>com.cloudyle.paasplus.samples.petclinic.gui</artifactId>
+      <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
+      <artifactId>petclinic-gui</artifactId>
       <version>${project.version}</version>
     </dependency>
 
@@ -144,47 +133,6 @@
     </plugins>
   </build>
 
-    <profiles>
-		<profile>
-			<id>openshift</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			
-			<build>
-            <plugins>
-			 <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.8</version>
-        <executions>
-          <execution>
-            <id>copy</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-			<artifactItems>
-                <artifactItem>
-                  <groupId>${project.groupId}</groupId>
-                  <artifactId>${project.artifactId}</artifactId>
-                  <version>${project.version}</version>
-                  <type>xml</type>
-	              <classifier>features</classifier>
-                </artifactItem>
-              </artifactItems>
-             
-              <outputDirectory>${karaf.deploy}</outputDirectory>
-              <overWriteReleases>true</overWriteReleases>
-              <overWriteSnapshots>true</overWriteSnapshots>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-			</plugins>
-			   </build>
-			</profile>
-	</profiles> 
+    
   
 </project>

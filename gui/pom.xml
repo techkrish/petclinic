@@ -17,16 +17,16 @@
 
 
   <parent>
-    <groupId>com.cloudyle.paasplus.samples</groupId>
-    <artifactId>com.cloudyle.paasplus.samples.petclinic</artifactId>
+    <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
+    <artifactId>petclinic</artifactId>
     <version>2.0.0</version>
     <relativePath>../</relativePath>
   </parent>
 
 
 
-  <groupId>com.cloudyle.paasplus.samples</groupId>
-  <artifactId>com.cloudyle.paasplus.samples.petclinic.gui</artifactId>
+  <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
+  <artifactId>petclinic-gui</artifactId>
   <packaging>bundle</packaging>
   <name>${paasplus.bundle.name.prefix.samples} - Demo UI</name>
 
@@ -52,9 +52,9 @@
       </dependency>
 	
 	 <dependency>
-    	<groupId>com.cloudyle.paasplus.samples</groupId>
+    	<groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
     	<artifactId>
-    		com.cloudyle.paasplus.samples.petclinic.api
+    		petclinic-api
     	</artifactId>
     	<version>${project.version}</version>
      </dependency>
@@ -86,6 +86,24 @@
 
   <build>
         <plugins>
+		
+		<plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>src/main/webapp/VAADIN/widgetsets</directory>
+                        </fileset>
+                        <fileset>
+                            <directory>src/main/webapp/VAADIN/gwt-unitCache</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -95,10 +113,16 @@
                        
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
-                       <DynamicImport-Package>*</DynamicImport-Package>
-                        <Require-Bundle>com.cloudyle.paasplus.platform.ui.themes,com.vaadin.server</Require-Bundle>
+
+                        <Require-Bundle>com.cloudyle.paasplus.platform.ui.themes,
+                            com.vaadin.server,
+                            com.vaadin.themes,
+                            com.vaadin.client-compiled
+						</Require-Bundle>
                          <Include-Resource>
                             language=src/main/resources/language,
+							WEB-INF=src/main/resources/WEB-INF,
+							WEB-INF/classes/com/cloudyle=src/main/resources/com/cloudyle,						
                         </Include-Resource>
                         <Import-Package>
                         org.slf4j;provider=paxlogging,
@@ -107,9 +131,11 @@
                         org.apache.shiro.web.env,
                         org.apache.shiro.web.servlet,
                         org.apache.shiro.realm.text,
+						com.cloudyle.paasplus.ui.framework,
+						com.cloudyle.paasplus.ui.shiro,
                         *</Import-Package>
                         <Web-ContextPath>/petclinic</Web-ContextPath>
-                        <_wab>src/main/resources</_wab>
+                        <_wab>src/main/webapp</_wab>
                         <Embed-Dependency>
 							loginform
 						</Embed-Dependency>

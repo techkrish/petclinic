@@ -10,15 +10,15 @@
 
 
   <parent>
-     <groupId>com.cloudyle.paasplus.samples</groupId>
-     <artifactId>com.cloudyle.paasplus.samples.petclinic</artifactId>
+     <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
+     <artifactId>petclinic</artifactId>
     <version>2.0.0</version>
     <relativePath>../</relativePath>
   </parent>
 
 
-  <groupId>com.cloudyle.paasplus.samples</groupId>
-  <artifactId>com.cloudyle.paasplus.samples.petclinic.persistence</artifactId>
+  <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
+  <artifactId>petclinic-persistence</artifactId>
   <packaging>bundle</packaging>
   <name>${paasplus.bundle.name.prefix.samples} - NoSql Service Provider</name>
 

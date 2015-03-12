@@ -1,2 +1,8 @@
 .classpath
 .settings
+gui/src/main/webapp/VAADIN/
+provider/build/
+deployment/build/
+deployment/target/
+feature/build/
+deployment/src/main/history/

@@ -16,15 +16,15 @@
 
 
   <parent>
-    <groupId>com.cloudyle.paasplus.samples</groupId>
-    <artifactId>com.cloudyle.paasplus.samples.petclinic</artifactId>
+    <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
+    <artifactId>petclinic</artifactId>
     <version>2.0.0</version>
     <relativePath>../</relativePath>
   </parent>
 
 
 
-  <artifactId>com.cloudyle.paasplus.samples.petclinic.api</artifactId>
+  <artifactId>petclinic-api</artifactId>
   <packaging>bundle</packaging>
   <name>${paasplus.bundle.name.prefix.samples} - API</name>
 
@@ -46,9 +46,9 @@
     	<version>2.0.0</version>
     </dependency>
     <dependency>
-    	<groupId>com.cloudyle.paasplus.samples</groupId>
+    	<groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
     	<artifactId>
-    		com.cloudyle.paasplus.samples.petclinic.persistence
+    		petclinic-persistence
     	</artifactId>
     	<version>2.0.0</version>
     	<type>bundle</type>
@@ -77,5 +77,5 @@
     </plugins>
   </build>
 
-  <groupId>com.cloudyle.paasplus.samples</groupId>
+  <groupId>com.cloudyle.paasplus.samples.petclinic</groupId>
 </project>
