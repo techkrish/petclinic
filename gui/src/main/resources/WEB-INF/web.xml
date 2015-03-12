@@ -16,7 +16,8 @@
 	<context-param>
 		<description>Vaadin production mode</description>
 		<param-name>productionMode</param-name>
-		<param-value>${productionMode}</param-value>
+		<!-- GWT Precompiling not working when building on OpenShift, therefore onthefly compiling is needed-->
+		<param-value>false</param-value>
 	</context-param>
 	<context-param>
       <param-name>shiroEnvironmentClass</param-name>

@@ -87,23 +87,6 @@
   <build>
         <plugins>
 		
-		<plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>src/main/webapp/VAADIN/widgetsets</directory>
-                        </fileset>
-                        <fileset>
-                            <directory>src/main/webapp/VAADIN/gwt-unitCache</directory>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-maven-plugin</artifactId>
-            </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -115,6 +98,7 @@
                         <Bundle-Version>${project.version}</Bundle-Version>
 
                         <Require-Bundle>com.cloudyle.paasplus.platform.ui.themes,
+						com.cloudyle.paasplus.platform.ui.framework,
                             com.vaadin.server,
                             com.vaadin.themes,
                             com.vaadin.client-compiled
@@ -131,7 +115,6 @@
                         org.apache.shiro.web.env,
                         org.apache.shiro.web.servlet,
                         org.apache.shiro.realm.text,
-						com.cloudyle.paasplus.ui.framework,
 						com.cloudyle.paasplus.ui.shiro,
                         *</Import-Package>
                         <Web-ContextPath>/petclinic</Web-ContextPath>
