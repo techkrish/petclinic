@@ -74,6 +74,41 @@
 	
 
 <build>
+
+<finalName>${project.artifactId}-${project.version}</finalName>
+    <directory>${basedir}/build</directory>
+    <outputDirectory>${basedir}/build/classes</outputDirectory>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
+    <testOutputDirectory>${basedir}/build/test-classes</testOutputDirectory>
+    <resources>
+      <resource>
+        <!-- Maven is not automatically including resources located in the source directory. -->
+        <directory>${project.build.sourceDirectory}</directory>
+        <filtering>false</filtering>
+        <targetPath>.</targetPath>
+        <excludes>
+          <exclude>**/*.~*</exclude>
+          <exclude>**/*.bak</exclude>
+          <exclude>**/*.java</exclude>
+
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <targetPath>.</targetPath>
+      </resource>
+       <resource>
+        <directory>src/main/feature</directory>
+        <filtering>false</filtering>
+        <targetPath>.</targetPath>
+        <excludes>
+          <exclude>**/*.xml</exclude>
+        </excludes>
+      </resource>
+    </resources>
+	
   <pluginManagement>
       <plugins>
         <plugin>
@@ -98,7 +133,28 @@
 		<plugin>
 			<groupId>org.apache.karaf.tooling</groupId>
 			<artifactId>karaf-maven-plugin</artifactId>
-			<version>3.0.3</version>
+			<version>3.0.1</version>
+			<extensions>true</extensions>
+          <executions>
+            <execution>
+              <id>build-feature</id>
+              <phase>package</phase>
+              <goals>
+                <goal>features-generate-descriptor</goal>
+              </goals>
+              <configuration>
+                <startLevel>100</startLevel>
+                <aggregateFeatures>false</aggregateFeatures>
+                <resolver>(obr)</resolver>
+                <checkDependencyChange>true</checkDependencyChange>
+                <failOnDependencyChange>false</failOnDependencyChange>
+                <logDependencyChanges>true</logDependencyChanges>
+                <overwriteChangedDependencies>true</overwriteChangedDependencies>
+                <includeTransitiveDependency>false</includeTransitiveDependency>
+                <installMode>auto</installMode>
+              </configuration>
+            </execution>
+          </executions>
 		</plugin>
 
         
