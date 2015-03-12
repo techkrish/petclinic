@@ -5,7 +5,7 @@ PetClinic Tutorial for OSGi
 
 See http://devcenter.cloudyle.com/display/PAAS/Pet+Clinic+Tutorial for detailed description
 
-Introduction
+## Introduction
 
 This tutorial shows the basic usage of the PaaS+ platform and the Enterprise API.
 
@@ -28,11 +28,12 @@ Use Cases
     Add information pertaining to a visit to the pet's visitation history
 
 In the first version of the tutorial only the login and pet list is implemented in the UI.
-Business Rules
+
+## Business Rules
 
     An owner may not have multiple pets with the same case-insensitive name.
 
-Database
+## Database
 
 The data is stored in a MongoDB and consists of the following collections:
 
@@ -48,7 +49,7 @@ In addition there are two catalogs managed by PaaS+ Catalog Service :
     Specialities : for veterinarian specialities
     PetTypes : for different pet types
 
-Project Structure
+## Project Structure
 
 The petclinic sources are separated in several modules. The build and dependencies are managed with Maven.
 
@@ -57,8 +58,9 @@ The petclinic sources are separated in several modules. The build and dependenci
     provider : Implementation of the ClinicService, uses PersistenceService, CatalogService and creates some sample data
     gui : Uses the PaaS+ Basic GUI Framework for providing the UI
     feature : Creates a Apache Karaf feature for deployment
+    deployment : Creates a Karaf Archive (kar) file that will automatically be deployed to your app on PaaS+
 
-Prerequisites
+## Prerequisites
 
 You should have installed on your machine a git version control client and an Eclipse or Netbeans IDE.
 
@@ -70,7 +72,8 @@ Preparation
 First you should register for an account at Cloudyle PaaS+.
 
 When you have an account you should open the PaaS+ Broker to create a new karaf application.
-Get the Sources
+
+## Get the Sources
 
 Get the petclinic sources from Github using:
 git clone https://github.com/Cloudyle/petclinic.git
@@ -114,8 +117,16 @@ http://<appname>-<domainame>.paasplus.com/petclinic
 The login screen will open up and you can login.
 
 The username is Dover with password dover
+Icon
 
-Check the code
+The configuration for the authentication is found in the shiro.ini in the gui project (in folder resources/WEB-INF/classes).
+You may change this to modify user access. You can also add additional Shiro realms to access an LDAP or other user store.
+
+ 
+
+ 
+
+## Check the code
 
 The pet clinic code contains a lot of examples how the  PaaS+ Enterprise API can be used.
 
@@ -130,7 +141,8 @@ Clicking Finish will start the import.
 Then there should be six new projects imported in your workspace.
 
 See the following chapters for finding out what you can check in each project.
-Root Project
+
+## Root Project
 
 The project com.cloudyle.paasplus.samples.petclinic is the root that contains all other projects as modules
 Nexus Access
@@ -156,12 +168,14 @@ In the pom.xml you can see the needed configuration to access the PaaS+ Nexus re
      </snapshots>
    </repository>
  </repositories>
-API
+
+## API
 
 The API project contains an OSGi service interface for ClinicService that handles the business logic for the Petclinic.
 
 For more on OSGi Services please see the OSGi Core Specification.
-Persistence
+
+## Persistence
 
 The persistence bundle provides a JPA persistence unit as OSGi Bundle.
 NoSQL JPA Persistence
@@ -193,8 +207,6 @@ In the blueprint.xml a PaaS+ persistence service is created for the JPA persiste
         class="com.cloudyle.paasplus.services.persistence.impl.ApplicationManagedPersistenceUnit" init-method="init">
         <jpa:unit property="entityManagerFactory" unitname="persistence-petclinic-nosql" />
         <property name="persistenceUnitName" value="persistence-petclinic-nosql" />   
- 
-        <property name="dtoEntityMapper" ref="dataMapper"/>
     </bean>
  
     <!-- Paasplus Persistence Service -->
@@ -203,13 +215,6 @@ In the blueprint.xml a PaaS+ persistence service is created for the JPA persiste
        <property name="persistenceUnit" ref="persistenceUnit" />
         <tx:transaction method="*" value="Required" />
     </bean>
- 
- 
- 
-  <bean id="dataMapper"
-  class="com.cloudyle.paasplus.core.datamapper.orika.OrikaDataAssembler">
-  <argument ref="blueprintBundleContext" />
-  </bean>
  
     <!-- Service definition -->
     <!-- Publish the persistenceService as a Service -->
@@ -226,7 +231,8 @@ In the blueprint.xml a PaaS+ persistence service is created for the JPA persiste
 </blueprint>
 
 You can check the entity sources for examples how to map JPA entities for NoSQL DB.
-Provider
+
+## Provider
 
 The provider bundle implements the ClinicService. It shows you how to use the persistence , catalog and report service.
 
@@ -283,11 +289,61 @@ Check the blueprint.xml how to get these services injected and how to access con
 </blueprint>
 
 For more on blueprint see the blueprint tutorial or this overview of blueprint.
-GUI
+
+## GUI
 
 The petclinic gui project is an example how to implement your own PaaS+ Web Application by extending the basic UI framework.
-Feature
 
-The feature project shows how to deploy your code using an Apache Karaf feature. It uses feature dependency to install the required PaaS+ bundles automatically.
+ 
 
-The feature is deployed to karaf/deploy folder to be automatically deployed in the PaaS+ application.
+getModules()
+
+By implementing getModules(), different modules containing views can be added to the application. e.g. clinicModule is added in the demo which contains a view namely ClinicView.
+@Override
+ protected List<Module> getModules()
+ {
+   if (this.modules == null)
+   {
+     this.modules = new ArrayList<>();
+     this.clinicModule = new ClinicModule();
+     this.modules.add(this.clinicModule);
+     setDefaultView("overview");
+   }
+   return this.modules;
+ }
+
+ 
+getSettingsMenu()
+
+By implementing getSettingsMenu(), MenuBar can be customized to show the profile name, photo or logout button, . e.g. in the demo, first name and second name are showed with an arrow. Clicking on the arrow shows the possibility of logout.
+@Override
+  protected MenuBar getSettingsMenu()
+  {
+    if (PaasplusPetClinicSession.getCurrent().isAuthenticated())
+    {
+      final List<SettingsItem> items = new ArrayList<>();
+      final MenuBar.Command logoutCmd = new MenuBar.Command()
+      {
+        @Override
+        public void menuSelected(final MenuBar.MenuItem selectedItem)
+        {
+          logout();
+        }
+      };
+      items.add(new SettingsItem("logout", logoutCmd));
+      final Vet vet = (Vet) PaasplusPetClinicSession.getCurrent().getAttribute("USER");
+      return DefaultSettingsMenu.createSettingsMenu(vet.getFirstName() + " " + vet.getLastName(), null, items);
+    }
+    return null;
+  }
+
+ 
+Further navigation
+
+Right-Click on the row shows a menu for further navigating in the application, e.g. selecting details from the menu shows a window for the selected item.
+
+## Feature and Deployment
+
+The feature and deployment projects show how to deploy your code using an Apache Karaf feature and kar archivew. It uses feature dependency to install the required PaaS+ bundles automatically.
+
+The kar archive is deployed to karaf/deploy folder to be automatically deployed in the PaaS+ application.
