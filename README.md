@@ -157,7 +157,7 @@ In the pom.xml you can see the needed configuration to access the PaaS+ Nexus re
    <repository>
      <id>paasplus</id>
      <name>Public Paas+ Repositories</name>
-     <url>http://nexus.paasplus.com:8081/nexus/content/groups/public/</url>
+     <url>https://nexus.paasplus.com/nexus/content/groups/public/</url>
      <releases>
        <enabled>true</enabled>
        <updatePolicy>always</updatePolicy>

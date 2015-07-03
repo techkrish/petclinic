@@ -42,7 +42,7 @@
     <repository>
 	  <id>paasplus</id>
 	  <name>Public Paas+ Repositories</name>
-	  <url>http://nexus.paasplus.com:8081/nexus/content/groups/public/</url>
+	  <url>https://nexus.paasplus.com/nexus/content/groups/public/</url>
 	  <releases>
 		<enabled>true</enabled>
 		<updatePolicy>always</updatePolicy>
@@ -59,7 +59,7 @@
    <pluginRepository>
       <id>paas-release</id>
       <name>paas-release</name>
-      <url>http://nexus.paasplus.com:8081/nexus/content/groups/public</url>
+      <url>https://nexus.paasplus.com/nexus/content/groups/public</url>
       <releases>
         <enabled>true</enabled>
         <updatePolicy>always</updatePolicy>
